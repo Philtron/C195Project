@@ -1,13 +1,31 @@
 package sample;
 
-import javafx.fxml.Initializable;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+public class Controller {
 
-public class Controller implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("INITIALIZED!");
+    @FXML
+    private Button LogInButton;
+
+    @FXML
+    private Label PasswordLabel;
+
+    @FXML
+    private TextField PasswordTextField;
+
+    @FXML
+    private Label UNameLabel;
+
+    @FXML
+    private TextField UNameTextField;
+
+    @FXML
+    void OnClickLogIn(ActionEvent event) {
+        System.out.println("Clicked!");
     }
+
 }

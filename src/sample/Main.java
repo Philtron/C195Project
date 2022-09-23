@@ -1,5 +1,6 @@
 package sample;
 
+import Helper.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,13 +12,15 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("C195 Philip Sauer");
         primaryStage.setScene(new Scene(root, 600, 300));
         primaryStage.show();
     }
 
 
     public static void main(String[] args) {
+        JDBC.openConnection();
         launch(args);
+        JDBC.closeConnection();
     }
 }

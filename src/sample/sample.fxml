@@ -12,5 +12,7 @@
       <Label fx:id="PasswordLabel" layoutX="179.0" layoutY="119.0" text="Password" />
       <TextField fx:id="UNameTextField" layoutX="257.0" layoutY="73.0" promptText="User Name" />
       <TextField fx:id="PasswordTextField" layoutX="257.0" layoutY="115.0" promptText="Password" />
+      <Label fx:id="LocaleLabel" layoutX="165.0" layoutY="255.0" text="Locale" />
+      <Button fx:id="exitButton" layoutX="248.0" layoutY="163.0" mnemonicParsing="false" onAction="#OnClickExit" prefHeight="25.0" prefWidth="50.0" text="Exit" />
    </children>
 </AnchorPane>

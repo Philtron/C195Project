@@ -1,11 +1,16 @@
 package Controller;
 
 import DatabaseAccess.JDBC;
+import DatabaseAccess.UserQuery;
 import Helper.Utils;
+import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +23,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LogInWindowController implements Initializable {
+    private static User loggedInUser;
+
     @FXML
     private Label LocaleLabel;
 
@@ -44,25 +51,23 @@ public class LogInWindowController implements Initializable {
 
         String uname = UNameTextField.getText();
         String password = PasswordTextField.getText();
-        Connection con = JDBC.getConnection();
-        PreparedStatement query = con.prepareStatement("SELECT * FROM users WHERE User_Name =\"" + uname + "\" AND " +
-                "Password =\"" + password + "\"");
-        System.out.println("SELECT * FROM users WHERE User_Name =\"" + uname + "\" AND " +
-                "Password =\"" + password + "\"");
-        ResultSet rs = query.executeQuery();
-        if(rs.next()){
-            System.out.println("Logged In");
-            Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
 
+        if(UserQuery.logIn(uname, password)){
+            System.out.println("Logged In!");
+            Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
+            loggedInUser = UserQuery.selectUser(uname);
+            System.out.println(loggedInUser);
         } else {
-            System.out.println("INVALID LOG IN");
-            Alert alert = new Alert(Alert.AlertType.ERROR, "INVALID LOG IN");
+            ResourceBundle resourceBundle = ResourceBundle.getBundle("LogIn");
+            String logInError = resourceBundle.getString("InvalidLogIn");
+            Alert alert = new Alert(Alert.AlertType.ERROR, logInError);
             alert.showAndWait();
         }
 
     }
     @FXML
     void OnClickExit(ActionEvent event) {
+
         ResourceBundle resourceBundle = ResourceBundle.getBundle("LogIn");
         String exitConfirmation = resourceBundle.getString("exitConfirmation");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, exitConfirmation);

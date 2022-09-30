@@ -1,12 +1,14 @@
 package DatabaseAccess;
 
 import Model.Country;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
 
 public class CountryQuery {
-    public static void selectAllToList(ObservableList<Country> allCountries){
+    public static ObservableList<Country> selectAllToList(){
+        ObservableList<Country> allCountries = FXCollections.observableArrayList();
         String sql = "SELECT * FROM countries";
         try {
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -26,5 +28,6 @@ public class CountryQuery {
 
             e.printStackTrace();
         }
+        return allCountries;
     }
 }

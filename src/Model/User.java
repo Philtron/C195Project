@@ -6,9 +6,14 @@ import java.time.LocalDateTime;
 public class User {
     private int userID;
     private String userName;
-    private String password;
-    private LocalDateTime createDate;
-    private String createdBy;
-    private Timestamp lastUpdate;
-    private String lastUpdatedBy;
+
+
+    public User(int userID, String userName) {
+        this.userID = userID;
+        this.userName = userName;
+
+    }
+    public String toString(){
+        return String.valueOf(this.userID) + ": " + this.userName;
+    }
 }

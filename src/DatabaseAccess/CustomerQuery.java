@@ -1,12 +1,13 @@
 package DatabaseAccess;
 
 import Model.Customer;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
 
 public class CustomerQuery {
-    public static void createCustomer(String name, String address, String postalCode, String phone,
+    public static void insertCustomer(String name, String address, String postalCode, String phone,
                                       Timestamp createDate, String createdBy, Timestamp lastUpdate,
                                       String lastUpdateBy, int divisionID){
         String sql = "INSERT INTO customers VALUES(Null, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -33,7 +34,8 @@ public class CustomerQuery {
             e.printStackTrace();
         }
     }
-    public static void selectAllToList(ObservableList<Customer> allCustomers){
+    public static ObservableList<Customer> selectAllToList(){
+        ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         String sql = "SELECT * FROM customers";
         try {
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -49,21 +51,16 @@ public class CustomerQuery {
                 Timestamp lastUpdate = rs.getTimestamp(8);
                 String lastUpdatedBy = rs.getString(9);
                 int divisionID = rs.getInt(10);
-//                System.out.println(String.format("%-2d", customerID) + " | Name: " + name + " | Address: " + address
-//                        + " | Zip Code: " + zip + " | Phone: " + phone + " | Created: " + createDate + " | By: " + createdBy +
-//                        " | Last Update: " + lastUpdate +  " | By: " + lastUpdatedBy + " | Division ID: " + divisionID);
+
                 Customer newCustomer = new Customer(customerID, name, address, zip, phone, createDate, createdBy,
                         lastUpdate, lastUpdatedBy, divisionID);
-//                System.out.println("Adding: " + newCustomer.getName());
                 allCustomers.add(newCustomer);
             }
-//            for(int i = 0; i < allCustomers.size(); i++){
-//                System.out.println("Size: " + allCustomers.size());
-//                System.out.println(allCustomers.get(i).getName());
-//            }
+
         } catch (SQLException e){
 
             e.printStackTrace();
         }
+        return allCustomers;
     }
 }

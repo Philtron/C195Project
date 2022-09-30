@@ -20,6 +20,6 @@
       <Button fx:id="exitButton" layoutX="640.0" layoutY="328.0" mnemonicParsing="false" onAction="#onClickExit" text="Exit" />
       <Button fx:id="backButton" layoutX="589.0" layoutY="328.0" mnemonicParsing="false" onAction="#onClickMainWindow" text="Back" />
       <Button fx:id="addCustomerButton" layoutX="25.0" layoutY="328.0" mnemonicParsing="false" onAction="#onClickAddCustomer" text="Add" />
-      <Button layoutX="73.0" layoutY="328.0" mnemonicParsing="false" text="Modify" />
+      <Button fx:id="modifyCustomerButton" layoutX="73.0" layoutY="328.0" mnemonicParsing="false" text="Modify" />
    </children>
 </AnchorPane>

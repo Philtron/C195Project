@@ -1,6 +1,8 @@
 package DatabaseAccess;
 
+import Model.Country;
 import Model.FirstLevelDivision;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
@@ -54,7 +56,8 @@ public abstract class FirstLevelDivisionQuery {
         }
     }
 
-    public static void selectAllToList(ObservableList<FirstLevelDivision> allFirstLevelDivisions){
+    public static ObservableList<FirstLevelDivision> selectAllToList(){
+        ObservableList<FirstLevelDivision> allFirstLevelDivisions = FXCollections.observableArrayList();
         String sql = "SELECT * FROM first_level_divisions";
         try {
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -78,5 +81,17 @@ public abstract class FirstLevelDivisionQuery {
 
             e.printStackTrace();
         }
+        return allFirstLevelDivisions;
+    }
+
+    public static ObservableList<FirstLevelDivision> getFilteredDivisions(Country inputCountry) throws SQLException {
+        ObservableList<FirstLevelDivision> filteredDivisions = FXCollections.observableArrayList();
+        int countryID = inputCountry.getCountryID();
+        for(FirstLevelDivision division : selectAllToList()){
+            if(division.getCountryID() == countryID) {
+                filteredDivisions.add(division);
+            }
+        }
+        return filteredDivisions;
     }
 }

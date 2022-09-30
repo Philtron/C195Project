@@ -29,4 +29,11 @@ public class Utils {
         alert.showAndWait();
 
     }
+    public static void updatePassFail(int rowsAffected) {
+        if (rowsAffected > 0) {
+            displayAlert("Update Successful");
+        } else {
+            displayAlert("UPDATE FAILED");
+        }
+    }
 }

@@ -63,9 +63,11 @@ public class LogInWindowController implements Initializable {
     }
     @FXML
     void OnClickExit(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to exit?");
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("LogIn");
+        String exitConfirmation = resourceBundle.getString("exitConfirmation");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, exitConfirmation);
         Optional<ButtonType> result = alert.showAndWait();
-        if ((result.isPresent()) && (result.get() == ButtonType.OK)){
+        if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
             JDBC.closeConnection();
             System.exit(0);
         }
@@ -75,6 +77,11 @@ public class LogInWindowController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         LocaleLabel.setText(String.valueOf(ZoneId.systemDefault()));
+        resourceBundle = ResourceBundle.getBundle("LogIn");
+        UNameLabel.setText(resourceBundle.getString("UNameLabel"));
+        PasswordLabel.setText(resourceBundle.getString("PasswordLabel"));
+        exitButton.setText(resourceBundle.getString("exitButton"));
+        LogInButton.setText(resourceBundle.getString("LogInButton"));
     }
 }
 

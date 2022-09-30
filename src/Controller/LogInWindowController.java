@@ -1,13 +1,13 @@
-package sample;
+package Controller;
 
-import Helper.JDBC;
+import DatabaseAccess.JDBC;
 import Helper.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import Helper.JDBC.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ import java.time.ZoneId;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class LogInWindowController implements Initializable {
     @FXML
     private Label LocaleLabel;
 
@@ -40,11 +40,11 @@ public class Controller implements Initializable {
     private TextField UNameTextField;
 
     @FXML
-    void OnClickLogIn(ActionEvent event) throws SQLException {
+    void OnClickLogIn(ActionEvent event) throws SQLException, IOException {
 
         String uname = UNameTextField.getText();
         String password = PasswordTextField.getText();
-        Connection con = Helper.JDBC.getConnection();
+        Connection con = JDBC.getConnection();
         PreparedStatement query = con.prepareStatement("SELECT * FROM users WHERE User_Name =\"" + uname + "\" AND " +
                 "Password =\"" + password + "\"");
         System.out.println("SELECT * FROM users WHERE User_Name =\"" + uname + "\" AND " +
@@ -52,6 +52,8 @@ public class Controller implements Initializable {
         ResultSet rs = query.executeQuery();
         if(rs.next()){
             System.out.println("Logged In");
+            Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
+
         } else {
             System.out.println("INVALID LOG IN");
             Alert alert = new Alert(Alert.AlertType.ERROR, "INVALID LOG IN");

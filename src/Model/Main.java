@@ -1,6 +1,6 @@
-package sample;
+package Model;
 
-import Helper.JDBC;
+import DatabaseAccess.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +11,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View/sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../View/LogInWindow.fxml"));
         primaryStage.setTitle("C195 Philip Sauer");
         primaryStage.setScene(new Scene(root, 600, 300));
         primaryStage.show();

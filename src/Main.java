@@ -16,8 +16,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("View/LogInWindow.fxml"));
-        primaryStage.centerOnScreen();
-        primaryStage.setTitle("C195 Philip Sauer");
+//        primaryStage.centerOnScreen();
+        primaryStage.setTitle("C195 Philip Sauer.");
         primaryStage.setScene(new Scene(root, 480, 250));
         primaryStage.show();
     }
@@ -25,6 +25,8 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         JDBC.openConnection();
+
+
         launch(args);
         JDBC.closeConnection();
     }

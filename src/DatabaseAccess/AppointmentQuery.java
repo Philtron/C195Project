@@ -42,6 +42,23 @@ public abstract class AppointmentQuery {
             e.printStackTrace();
         }
     }
+    public static boolean delete(int appointmentID){
+        boolean deleted = false;
+        String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
+        try{
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ps.setInt(1, appointmentID);
+            int rowsAffected = ps.executeUpdate();
+            if(rowsAffected == 1){
+                deleted = true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return deleted;
+    }
     public static ObservableList<Appointment> selectAllToTableViewList(){
         ObservableList<Appointment> allAppointments =FXCollections.observableArrayList();
         String sql = "SELECT a.Appointment_ID, cu.Customer_ID, cu.Customer_Name, a.Title, a.Location, a.Type, " +

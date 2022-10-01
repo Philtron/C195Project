@@ -6,12 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 
 public class Utils {
     public static void changeWindow(ActionEvent event, String fileName, String title) throws IOException {

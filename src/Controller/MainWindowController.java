@@ -18,7 +18,16 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
-
+    @FXML
+    private Label toggleLabel;
+    @FXML
+    private ToggleGroup FilterToggle;
+    @FXML
+    private ToggleButton weekFilterButton;
+    @FXML
+    private ToggleButton monthFilterButton;
+    @FXML
+    private ToggleButton noFilterButton;
     @FXML
     private TableView<Appointment> appointmentTable;
 
@@ -63,29 +72,49 @@ public class MainWindowController implements Initializable {
     private Button logOutButton;
 
     @FXML
-    void onClickExit(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to exit?");
+    void onClickExit(ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Would you like to log out or exit completely?");
+
+        ButtonType logout = new ButtonType("Log Out");
+        ButtonType exit = new ButtonType("Exit Completely");
+        alert.getButtonTypes().clear();
+        alert.getButtonTypes().addAll(logout, exit);
         Optional<ButtonType> result = alert.showAndWait();
-        if ((result.isPresent()) && (result.get() == ButtonType.OK)){
-            JDBC.closeConnection();
+
+        if(result.get() == null){
+            alert.close();
+        } else if (result.get() == logout){
+            Utils.changeWindow(event, "../View/LogInWindow.fxml", "Log In");
+            LogInWindowController.loggedInUser = null;
+        } else {
             System.exit(0);
         }
+
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to exit?");
+//        alert.setTitle("Exit?");
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if ((result.isPresent()) && (result.get() == ButtonType.OK)){
+//            JDBC.closeConnection();
+//            System.exit(0);
+//        }
     }
 
-    @FXML
-    void onClickLogOut(ActionEvent event) throws IOException {
-        Utils.changeWindow(event, "../View/LogInWindow.fxml", "Log In");
-    }
 
     @FXML
     void onClickToCustomerView(ActionEvent event) throws IOException {
         Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");
     }
+    public void setTable(ObservableList<Appointment> appointments){
+        appointmentTable.setItems(appointments);
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        ObservableList<Appointment> appointments = AppointmentQuery.selectAllToTableViewList();
-        appointmentTable.setItems(AppointmentQuery.selectAllToTableViewList());
+
+
+        setTable(AppointmentQuery.selectAllToTableViewList());
         apptIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         custIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         custNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -97,5 +126,38 @@ public class MainWindowController implements Initializable {
         endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
         contNameCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
 
+    }
+
+    public void onClickDeleteAppointment(ActionEvent event) {
+        Appointment appt = appointmentTable.getSelectionModel().getSelectedItem();
+        AppointmentQuery.delete(appt.getAppointmentID());
+        setTable(AppointmentQuery.selectAllToTableViewList());
+    }
+
+    public void onClickAddAppointment(ActionEvent event) throws IOException {
+        Utils.changeWindow(event, "../View/AddAppointmentWindow.fxml", "Add Appointment");
+    }
+
+    public void onClickEditAppointment(ActionEvent event) {
+    }
+
+
+    public void onToggleNoFilter(ActionEvent event) {
+        if(event.getSource() == noFilterButton) {
+            toggleLabel.setText("All");
+        }
+    }
+
+
+    public void onToggleFilterByWeek(ActionEvent event) {
+        if (event.getSource()== weekFilterButton) {
+            toggleLabel.setText("Week");
+        }
+    }
+
+    public void onToggleMonthFilter(ActionEvent event) {
+        if(event.getSource() == monthFilterButton) {
+            toggleLabel.setText("Month");
+        }
     }
 }

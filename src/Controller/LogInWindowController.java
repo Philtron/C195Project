@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LogInWindowController implements Initializable {
-    private static User loggedInUser;
+    public static User loggedInUser;
 
     @FXML
     private Label LocaleLabel;

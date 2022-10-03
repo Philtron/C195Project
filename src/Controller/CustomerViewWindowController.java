@@ -61,13 +61,32 @@ public class CustomerViewWindowController implements Initializable {
     }
 
     @FXML
-    void onClickExit(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to exit?");
+    void onClickExit(ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Would you like to log out or exit completely?");
+
+        ButtonType logout = new ButtonType("Log Out");
+        ButtonType exit = new ButtonType("Exit Program");
+        ButtonType cancel = new ButtonType("Return to Program");
+        alert.getButtonTypes().clear();
+        alert.getButtonTypes().addAll(logout, exit, cancel);
         Optional<ButtonType> result = alert.showAndWait();
-        if ((result.isPresent()) && (result.get() == ButtonType.OK)){
-            JDBC.closeConnection();
+
+
+        if (result.get() == logout){
+            Utils.changeWindow(event, "../View/LogInWindow.fxml", "Log In");
+            LogInWindowController.loggedInUser = null;
+        } else if (result.get() == exit){
             System.exit(0);
+        } else if (result.get() == cancel) {
+            alert.close();
         }
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to exit?");
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if ((result.isPresent()) && (result.get() == ButtonType.OK)){
+//            JDBC.closeConnection();
+//            System.exit(0);
+//        }
     }
 
     @FXML
@@ -94,9 +113,10 @@ public class CustomerViewWindowController implements Initializable {
         Customer cust = customerTable.getSelectionModel().getSelectedItem();
         int custID = cust.getCustomerID();
         if(CustomerQuery.deleteConfirm(custID)){
-            CustomerQuery.delete(cust.getCustomerID());
-            setTable();
-            Utils.displayAlert("Successfully deleted Customer with ID: " + String.valueOf(custID));
+            if(CustomerQuery.delete(cust.getCustomerID())) {
+                setTable();
+                Utils.displayAlert("Successfully deleted Customer with ID: " + custID);
+            }
         }
     }
 

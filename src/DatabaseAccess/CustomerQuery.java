@@ -58,9 +58,8 @@ public class CustomerQuery {
                 Timestamp lastUpdate = rs.getTimestamp("Last_Update");
                 String lastUpdatedBy = rs.getString("Last_Updated_By");
                 int divID = rs.getInt("Division_ID");
-                Customer newCustomer = new Customer(customerID, custName, address, zipCode, phoneNum,
+                return new Customer(customerID, custName, address, zipCode, phoneNum,
                         createDate, createdBy, lastUpdate, lastUpdatedBy, divID);
-                return newCustomer;
             }
 
         } catch (SQLException e){
@@ -144,21 +143,21 @@ public class CustomerQuery {
 //    }
 
     public static boolean deleteConfirm(int custID){
+        String alertMessage;
         String sql = "SELECT * FROM appointments WHERE Customer_ID = ?";
         try{
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
             ps.setInt(1, custID);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This customer has appointments. " +
-                        "Are you sure you would like to delete this customer and their appointments?");
-                Optional<ButtonType> result = alert.showAndWait();
-                if ((result.isPresent()) && (result.get() == ButtonType.OK)){
-                    return true;
-                } else {
-                    return false;
-                }
+                alertMessage = "This customer has appointments. Are you sure you would like to delete this customer" +
+                        " and their appointments?";
+            } else {
+                alertMessage = "Are you sure you would like to delete this customer?";
             }
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, alertMessage);
+            Optional<ButtonType> result = alert.showAndWait();
+            return (result.isPresent()) && (result.get() == ButtonType.OK);
         } catch (SQLException e) {
             System.out.println("ERROR: " + e.getMessage());
             e.printStackTrace();

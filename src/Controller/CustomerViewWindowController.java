@@ -1,10 +1,7 @@
 package Controller;
 
-import DatabaseAccess.AppointmentQuery;
 import DatabaseAccess.CustomerQuery;
-import DatabaseAccess.JDBC;
 import Helper.Utils;
-import Model.Appointment;
 import Model.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,16 +16,16 @@ import java.util.ResourceBundle;
 
 public class CustomerViewWindowController implements Initializable {
 
-    @FXML
-    private Button addCustomerButton;
-    @FXML
-    private Button deleteCustomer;
-    @FXML
-    private Button backButton;
-    @FXML
-    private Button exitButton;
-    @FXML
-    private Button modifyCustomerButton;
+//    @FXML
+//    private Button addCustomerButton;
+//    @FXML
+//    private Button deleteCustomer;
+//    @FXML
+//    private Button backButton;
+//    @FXML
+//    private Button exitButton;
+//    @FXML
+//    private Button modifyCustomerButton;
 
 
     @FXML
@@ -109,7 +106,7 @@ public class CustomerViewWindowController implements Initializable {
         divisionIDCol.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
     }
 
-    public void onClickDeleteCustomer(ActionEvent event) {
+    public void onClickDeleteCustomer() {
         Customer cust = customerTable.getSelectionModel().getSelectedItem();
         int custID = cust.getCustomerID();
         if(CustomerQuery.deleteConfirm(custID)){

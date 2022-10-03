@@ -152,7 +152,9 @@ public class MainWindowController implements Initializable {
         Utils.changeWindow(event, "../View/AddAppointmentWindow.fxml", "Add Appointment");
     }
 
-    public void onClickEditAppointment(ActionEvent event) {
+    public void onClickEditAppointment(ActionEvent event) throws IOException {
+        ModifyAppointmentWindowController.appointment = appointmentTable.getSelectionModel().getSelectedItem();
+        Utils.changeWindow(event, "../View/ModifyAppointmentWindow.fxml", "Modify Appointment");
     }
 
 

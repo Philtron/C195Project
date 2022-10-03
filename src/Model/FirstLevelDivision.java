@@ -52,6 +52,6 @@ public class FirstLevelDivision {
 
     @Override
     public String toString(){
-        return (this.division);
+        return (this.division + " Division ID: " + this.divisionID);
     }
 }

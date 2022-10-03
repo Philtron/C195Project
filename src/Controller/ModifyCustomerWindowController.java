@@ -1,11 +1,13 @@
 package Controller;
 
 import DatabaseAccess.CountryQuery;
+import DatabaseAccess.CustomerQuery;
 import DatabaseAccess.FirstLevelDivisionQuery;
 import Helper.Utils;
 import Model.Country;
 import Model.Customer;
 import Model.FirstLevelDivision;
+import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +18,8 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class ModifyCustomerWindowController implements Initializable {
@@ -49,7 +53,18 @@ public class ModifyCustomerWindowController implements Initializable {
     private Button saveButton;
 
     @FXML
-    void onClickModifyCustomer(ActionEvent event) {
+    void onClickModifyCustomer(ActionEvent event) throws IOException {
+        int customerID = Integer.valueOf(custIDTextField.getText());
+        String customerName = custNameTextField.getText();
+        String address = addressTextField.getText();
+        String zip = postalCodeTextField.getText();
+        String phone = phoneTextField.getText();
+//        String country = countryComboBox.getValue().getCountry();
+        int divisionID = divisionComboBox.getValue().getDivisionID();
+        User createUser = LogInWindowController.loggedInUser;
+        CustomerQuery.modifyCustomer(customerID, customerName, address, zip, phone,
+                createUser.getUserName(), Timestamp.valueOf(LocalDateTime.now()), createUser.getUserName(), divisionID );
+        Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");
 
     }
 
@@ -64,6 +79,7 @@ public class ModifyCustomerWindowController implements Initializable {
         postalCodeTextField.setText(customer.getPostalCode());
         phoneTextField.setText(customer.getPhoneNumber());
         custIDTextField.setText(String.valueOf(customer.getCustomerID()));
+        custIDTextField.setDisable(true);
         custNameTextField.setText(customer.getName());
         Country country = CountryQuery.selectFromDivisionID(customer.getDivisionID());
         FirstLevelDivision division = FirstLevelDivisionQuery.select(customer.getDivisionID());

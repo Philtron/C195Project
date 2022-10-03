@@ -8,34 +8,35 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainWindowController">
    <children>
-      <TableView fx:id="appointmentTable" layoutX="13.0" layoutY="14.0" prefHeight="400.0" prefWidth="1175.0">
+      <TableView fx:id="appointmentTable" layoutX="13.0" layoutY="14.0" prefHeight="400.0" prefWidth="1275.0">
         <columns>
           <TableColumn fx:id="apptIDCol" prefWidth="59.0" text="Appt. ID" />
           <TableColumn fx:id="custIDCol" prefWidth="81.0" text="Cust. ID" />
-            <TableColumn fx:id="custNameCol" prefWidth="175.0" text="Customer Name" />
-            <TableColumn fx:id="titleCol" minWidth="0.0" prefWidth="135.0" text="Title" />
-            <TableColumn fx:id="locCol" prefWidth="99.0" text="Location" />
-            <TableColumn fx:id="typeCol" prefWidth="155.0" text="Type" />
-            <TableColumn fx:id="descCol" prefWidth="165.0" text="Description" />
-            <TableColumn fx:id="startCol" prefWidth="90.0" text="Start" />
-            <TableColumn fx:id="endCol" prefWidth="81.0" text="End" />
-            <TableColumn fx:id="contNameCol" minWidth="0.0" prefWidth="134.0" text="Contact Name" />
+            <TableColumn fx:id="custNameCol" prefWidth="141.0" text="Customer Name" />
+            <TableColumn fx:id="titleCol" minWidth="0.0" prefWidth="97.0" text="Title" />
+            <TableColumn fx:id="locCol" prefWidth="109.0" text="Location" />
+            <TableColumn fx:id="typeCol" prefWidth="121.0" text="Type" />
+            <TableColumn fx:id="descCol" prefWidth="143.0" text="Description" />
+            <TableColumn fx:id="startCol" prefWidth="142.0" text="Start" />
+            <TableColumn fx:id="endCol" prefWidth="139.0" text="End" />
+            <TableColumn fx:id="contNameCol" minWidth="0.0" prefWidth="156.0" text="Contact Name" />
+            <TableColumn fx:id="userIDCol" minWidth="0.0" prefWidth="86.0" text="User_ID" />
         </columns>
       </TableView>
       <Button fx:id="newAppointmentButton" layoutX="13.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickAddAppointment" text="New Appointment" />
       <Button fx:id="editAppointmentButton" layoutX="135.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickEditAppointment" text="Edit Appointment" />
       <Button fx:id="deleteAppointment" layoutX="252.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickDeleteAppointment" text="Delete Appointment" />
-      <Button fx:id="CustomerViewButton" layoutX="935.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickToCustomerView" prefHeight="30.0" prefWidth="121.0" text="Customer List" />
-      <Button fx:id="exitButton" layoutX="1065.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickExit" prefHeight="30.0" prefWidth="121.0" text="Exit" />
-      <ToggleButton fx:id="weekFilterButton" layoutX="454.0" layoutY="422.0" mnemonicParsing="false" prefHeight="11.0" prefWidth="92.0" text="Filter by Week" toggleGroup="$FilterToggle">
+      <Button fx:id="CustomerViewButton" layoutX="1037.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickToCustomerView" prefHeight="30.0" prefWidth="121.0" text="Customer List" />
+      <Button fx:id="exitButton" layoutX="1167.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickExit" prefHeight="30.0" prefWidth="121.0" text="Exit" />
+      <ToggleButton fx:id="weekFilterButton" layoutX="454.0" layoutY="422.0" mnemonicParsing="false" onAction="#onToggleFilterByWeek" prefHeight="11.0" prefWidth="92.0" text="Filter by Week" toggleGroup="$FilterToggle">
          <toggleGroup>
             <ToggleGroup fx:id="FilterToggle" />
          </toggleGroup>
       </ToggleButton>
       <ToggleButton fx:id="noFilterButton" layoutX="556.0" layoutY="422.0" mnemonicParsing="false" onAction="#onToggleNoFilter" prefHeight="11.0" prefWidth="109.0" text="All Appointments" toggleGroup="$FilterToggle" />
-      <ToggleButton fx:id="monthFilterButton" layoutX="674.0" layoutY="422.0" mnemonicParsing="false" prefHeight="11.0" prefWidth="98.0" text="Filter by Month" toggleGroup="$FilterToggle" />
+      <ToggleButton fx:id="monthFilterButton" layoutX="674.0" layoutY="422.0" mnemonicParsing="false" onAction="#onToggleMonthFilter" prefHeight="11.0" prefWidth="98.0" text="Filter by Month" toggleGroup="$FilterToggle" />
       <Label fx:id="toggleLabel" layoutX="597.0" layoutY="459.0" text="Label" />
    </children>
 </AnchorPane>

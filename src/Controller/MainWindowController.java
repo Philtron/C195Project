@@ -61,6 +61,9 @@ public class MainWindowController implements Initializable {
     @FXML
     private TableColumn<Appointment, String> typeCol;
 
+    @FXML
+    private TableColumn<?, ?> userIDCol;
+
 
     @FXML
     private Button CustomerViewButton;
@@ -128,6 +131,7 @@ public class MainWindowController implements Initializable {
         startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
         contNameCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        userIDCol.setCellValueFactory(new PropertyValueFactory<>("UserID"));
 
     }
 
@@ -146,21 +150,21 @@ public class MainWindowController implements Initializable {
 
 
     public void onToggleNoFilter(ActionEvent event) {
-        if(event.getSource() == noFilterButton) {
+//        if(event.getSource() == noFilterButton) {
             toggleLabel.setText("All");
-        }
+//        }
     }
 
 
     public void onToggleFilterByWeek(ActionEvent event) {
-        if (event.getSource()== weekFilterButton) {
+//        if (event.getSource()== weekFilterButton) {
             toggleLabel.setText("Week");
-        }
+//        }
     }
 
     public void onToggleMonthFilter(ActionEvent event) {
-        if(event.getSource() == monthFilterButton) {
+//        if(event.getSource() == monthFilterButton) {
             toggleLabel.setText("Month");
-        }
+//        }
     }
 }

@@ -1,5 +1,6 @@
 package DatabaseAccess;
 
+import Helper.Utils;
 import Model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +11,36 @@ import java.sql.*;
 import java.util.Optional;
 
 public class CustomerQuery {
+    public static void modifyCustomer(int customerID, String name, String address, String postalCode, String phone,
+                                      String createdBy, Timestamp lastUpdate,
+                                      String lastUpdateBy, int divisionID){
+        String sql = "UPDATE customers SET Customer_Name = ?, Address = ?, " +
+                "Postal_Code = ?, Phone=?, Last_Update = timestamp(now()), Last_Updated_By=?, " +
+                "Division_ID=? WHERE Customer_ID = ?";
+        try {
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, address);
+            ps.setString(3, postalCode);
+            ps.setString(4, phone);
+//            ps.setTimestamp(5, createDate);
+//            ps.setString(6, createdBy);
+//            ps.setTimestamp(5, lastUpdate);
+            ps.setString(5, lastUpdateBy);
+            ps.setInt(6, divisionID);
+            ps.setInt(7, customerID);
+            System.out.println(ps);
+
+
+            int rowsAffected = ps.executeUpdate();
+            Utils.updatePassFail(rowsAffected);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+
     public static Customer select(String customerName) {
         String sql = "SELECT * FROM customers where Customer_Name= ?";
         try {

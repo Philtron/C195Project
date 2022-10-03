@@ -50,7 +50,6 @@ public class LogInWindowController implements Initializable {
         String password = PasswordTextField.getText();
 
         if(UserQuery.logIn(uname, password)){
-            System.out.println("Logged In!");
             Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
             loggedInUser = UserQuery.selectUser(uname);
             System.out.println(loggedInUser);

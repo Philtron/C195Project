@@ -62,7 +62,7 @@ public abstract class AppointmentQuery {
     public static ObservableList<Appointment> selectAllToTableViewList(){
         ObservableList<Appointment> allAppointments =FXCollections.observableArrayList();
         String sql = "SELECT a.Appointment_ID, cu.Customer_ID, cu.Customer_Name, a.Title, a.Location, a.Type, " +
-                "a.Description,  a.Start, a.End,   co.Contact_Name FROM customers cu JOIN appointments a ON " +
+                "a.Description,  a.Start, a.End, a.User_ID, co.Contact_Name FROM customers cu JOIN appointments a ON " +
                 "a.Customer_ID = cu.Customer_ID JOIN contacts co ON a.Contact_ID = co.Contact_ID";
         try {
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -79,8 +79,10 @@ public abstract class AppointmentQuery {
                 ZonedDateTime start = ZonedDateTime.of(time, ZoneId.systemDefault());
                 time = rs.getTimestamp("End").toLocalDateTime();
                 ZonedDateTime end = ZonedDateTime.of(time, ZoneId.systemDefault());
+                int userID = rs.getInt("User_ID");
                 String conName = rs.getString("Contact_Name");
-                Appointment newAppointment = new Appointment(appointmentID, custID, cusName, title, location, type, description, start, end, conName);
+
+                Appointment newAppointment = new Appointment(appointmentID, custID, cusName, title, location, type, description, start, end, conName, userID);
                 allAppointments.add(newAppointment);
             }
 

@@ -1,11 +1,13 @@
 package Controller;
 
 import DatabaseAccess.CountryQuery;
+import DatabaseAccess.CustomerQuery;
 import DatabaseAccess.FirstLevelDivisionQuery;
 import Helper.Utils;
 import Model.Country;
 import Model.FirstLevelDivision;
 
+import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,6 +19,8 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class AddCustomerWindowController implements Initializable {
@@ -75,13 +79,25 @@ public class AddCustomerWindowController implements Initializable {
     }
 
     @FXML
-    void onClickSaveCustomer(ActionEvent event) {
-
+    void onClickSaveCustomer(ActionEvent event) throws IOException {
+        String customerName = custNameTextField.getText();
+        String address = addressTextField.getText();
+        String zip = postalCodeTextField.getText();
+        String phone = phoneNumberTextField.getText();
+        String country = countryComboBox.getValue().getCountry();
+        int divisionID = divisionComboBox.getValue().getDivisionID();
+        User createUser = LogInWindowController.loggedInUser;
+        CustomerQuery.insertCustomer(customerName, address, zip, phone, Timestamp.valueOf(LocalDateTime.now()),
+                createUser.getUserName(), Timestamp.valueOf(LocalDateTime.now()), createUser.getUserName(), divisionID );
+        Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        CountryQuery.selectAllToList(allCountries);
+//        custIDTextField.setText(String.valueOf(CustomerQuery.getNextID()));
+        custIDTextField.setDisable(true);
+
         countryComboBox.setItems(CountryQuery.selectAllToList());
         countryComboBox.valueProperty().addListener((options, oldValue, newValue) -> {
             if (newValue == null) {
@@ -100,5 +116,7 @@ public class AddCustomerWindowController implements Initializable {
 
             }
         });
+
+
     }
 }

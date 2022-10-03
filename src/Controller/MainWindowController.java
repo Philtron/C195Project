@@ -77,9 +77,10 @@ public class MainWindowController implements Initializable {
         alert.setHeaderText("Would you like to log out or exit completely?");
 
         ButtonType logout = new ButtonType("Log Out");
-        ButtonType exit = new ButtonType("Exit Completely");
+        ButtonType exit = new ButtonType("Exit Program");
+        ButtonType cancel = new ButtonType("Return to Program");
         alert.getButtonTypes().clear();
-        alert.getButtonTypes().addAll(logout, exit);
+        alert.getButtonTypes().addAll(logout, exit, cancel);
         Optional<ButtonType> result = alert.showAndWait();
 
         if(result.get() == null){
@@ -87,8 +88,10 @@ public class MainWindowController implements Initializable {
         } else if (result.get() == logout){
             Utils.changeWindow(event, "../View/LogInWindow.fxml", "Log In");
             LogInWindowController.loggedInUser = null;
-        } else {
+        } else if (result.get() == exit){
             System.exit(0);
+        } else if (result.get() == cancel) {
+            alert.close();
         }
 
 //        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to exit?");

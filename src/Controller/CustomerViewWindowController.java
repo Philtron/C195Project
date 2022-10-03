@@ -1,11 +1,11 @@
 package Controller;
 
+import DatabaseAccess.AppointmentQuery;
 import DatabaseAccess.CustomerQuery;
 import DatabaseAccess.JDBC;
 import Helper.Utils;
+import Model.Appointment;
 import Model.Customer;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,7 +14,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -22,6 +21,8 @@ public class CustomerViewWindowController implements Initializable {
 
     @FXML
     private Button addCustomerButton;
+    @FXML
+    private Button deleteCustomer;
     @FXML
     private Button backButton;
     @FXML
@@ -74,15 +75,37 @@ public class CustomerViewWindowController implements Initializable {
         Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
     }
 
+    public void setTable(){
+        customerTable.setItems(CustomerQuery.selectAllToList());
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        CustomerQuery.selectAllToList(allCustomers);
-        customerTable.setItems(CustomerQuery.selectAllToList());
+        setTable();
         custIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
         zipCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         divisionIDCol.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
+    }
+
+    public void onClickDeleteCustomer(ActionEvent event) {
+        Customer cust = customerTable.getSelectionModel().getSelectedItem();
+        int custID = cust.getCustomerID();
+        if(CustomerQuery.deleteConfirm(custID)){
+            CustomerQuery.delete(cust.getCustomerID());
+            setTable();
+            Utils.displayAlert("Successfully deleted Customer with ID: " + String.valueOf(custID));
+        }
+    }
+
+    public void onClickModifyCustomer(ActionEvent event) throws IOException {
+        if (customerTable.getSelectionModel().getSelectedItem() == null) {
+            Utils.displayAlert("Please Select a customer to Modify.");
+        } else {
+            ModifyCustomerWindowController.customer = customerTable.getSelectionModel().getSelectedItem();
+            Utils.changeWindow(event, "../View/ModifyCustomerWindow.fxml", "Modify Customer");
+        }
     }
 }

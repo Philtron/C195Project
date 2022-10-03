@@ -8,15 +8,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.Optional;
@@ -24,6 +18,9 @@ import java.util.ResourceBundle;
 
 public class LogInWindowController implements Initializable {
     public static User loggedInUser;
+
+    @FXML
+    private Label titleLabel;
 
     @FXML
     private Label LocaleLabel;
@@ -87,6 +84,7 @@ public class LogInWindowController implements Initializable {
         PasswordLabel.setText(resourceBundle.getString("PasswordLabel"));
         exitButton.setText(resourceBundle.getString("exitButton"));
         LogInButton.setText(resourceBundle.getString("LogInButton"));
+        titleLabel.setText(resourceBundle.getString("TitleLabel"));
     }
 }
 

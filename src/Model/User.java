@@ -13,7 +13,13 @@ public class User {
         this.userName = userName;
 
     }
-    public String toString(){
-        return String.valueOf(this.userID) + ": " + this.userName;
+
+    public int getUserID() {
+        return userID;
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
 }

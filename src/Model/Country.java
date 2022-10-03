@@ -2,16 +2,18 @@ package Model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Country {
     private int CountryID;
     private String country;
-    private Date createDate;
+    private LocalDate createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String updatedBy;
 
-    public Country(int countryID, String country, Date createDate, String createdBy, Timestamp lastUpdate, String updatedBy) {
+    public Country(int countryID, String country, LocalDate createDate, String createdBy, Timestamp lastUpdate, String updatedBy) {
         this.CountryID = countryID;
         this.country = country;
         this.createDate = createDate;
@@ -30,7 +32,7 @@ public class Country {
 
 
 
-    public Date getCreateDate() {
+    public LocalDate getCreateDate() {
         return createDate;
     }
 

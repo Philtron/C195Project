@@ -17,7 +17,7 @@
       <TextField fx:id="addressTextField" layoutX="157.0" layoutY="44.0" />
       <TextField fx:id="postalCodeTextField" layoutX="157.0" layoutY="82.0" />
       <TextField fx:id="phoneNumberTextField" layoutX="157.0" layoutY="119.0" />
-      <TextField fx:id="custIDTextField" layoutX="446.0" layoutY="10.0" />
+      <TextField fx:id="custIDTextField" layoutX="446.0" layoutY="10.0" promptText="Disabled - Auto Gen" />
       <ComboBox fx:id="countryComboBox" layoutX="446.0" layoutY="44.0" prefWidth="150.0" />
       <Label fx:id="countryLabel" layoutX="320.0" layoutY="48.0" text="Country:" />
       <Label fx:id="divisionLabel" layoutX="321.0" layoutY="86.0" text="Divison:" />

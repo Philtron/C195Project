@@ -94,4 +94,31 @@ public abstract class FirstLevelDivisionQuery {
         }
         return filteredDivisions;
     }
+
+    public static FirstLevelDivision select(int divisionID) {
+        String sql = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
+        try {
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ps.setInt(1, divisionID);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                String division = rs.getString(2);
+                Date createDate = rs.getDate(3);
+                String createdBy = rs.getString(4);
+                Timestamp lastUpdate = rs.getTimestamp(5);
+                String lastUpdateBy = rs.getString(6);
+                int countryID = rs.getInt(7);
+//                System.out.println(String.format("%-2d", divisionID) + " | Division:  " + division + " | Created: " +
+//                        createDate + " | By:" + createdBy + " | Last Update: " + lastUpdate + " | By: " + lastUpdateBy
+//                        + " | Country ID: " + countryID);
+                return (new FirstLevelDivision(divisionID, division, createDate,
+                        createdBy, lastUpdate, lastUpdateBy, countryID));
+
+            }
+        } catch (SQLException e){
+
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

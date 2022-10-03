@@ -31,10 +31,10 @@
       <Button fx:id="backButton" layoutX="370.0" layoutY="249.0" mnemonicParsing="false" onAction="#onClickToMainWindow" text="Back" />
       <ComboBox fx:id="contactComboBox" layoutX="490.0" layoutY="179.0" prefWidth="150.0" />
       <Label layoutX="390.0" layoutY="23.0" text="Start Date" />
-      <ComboBox fx:id="startHourComboBox" layoutX="490.0" layoutY="59.0" prefWidth="70.0" />
-      <ComboBox fx:id="startMinuteComboBox" layoutX="570.0" layoutY="59.0" prefWidth="70.0" />
-      <ComboBox fx:id="endHourComboBox" layoutX="490.0" layoutY="99.0" prefWidth="70.0" />
-      <ComboBox fx:id="endMinuteComboBox" layoutX="570.0" layoutY="99.0" prefWidth="70.0" />
+      <ComboBox fx:id="startHourComboBox" layoutX="490.0" layoutY="59.0" prefWidth="70.0" promptText="Hour" />
+      <ComboBox fx:id="startMinuteComboBox" layoutX="570.0" layoutY="59.0" prefWidth="70.0" promptText="Min" />
+      <ComboBox fx:id="endHourComboBox" layoutX="490.0" layoutY="99.0" prefWidth="70.0" promptText="Hour" />
+      <ComboBox fx:id="endMinuteComboBox" layoutX="570.0" layoutY="99.0" prefWidth="70.0" promptText="Min" />
    </children>
    <opaqueInsets>
       <Insets />

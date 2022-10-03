@@ -12,11 +12,11 @@
       <TextField fx:id="UNameTextField" layoutX="191.0" layoutY="73.0" prefHeight="25.0" prefWidth="215.0" promptText="User Name" />
       <PasswordField fx:id="PasswordTextField" layoutX="191.0" layoutY="115.0" prefHeight="25.0" prefWidth="215.0" promptText="Password" />
       <Button fx:id="LogInButton" layoutX="179.0" layoutY="163.0" mnemonicParsing="false" onAction="#OnClickLogIn" text="Log In" />
-      <Label fx:id="UNameLabel" layoutX="120.0" layoutY="77.0" text="User Name" />
-      <Label fx:id="PasswordLabel" layoutX="120.0" layoutY="119.0" text="Password" />
+      <Label fx:id="UNameLabel" layoutX="89.0" layoutY="77.0" style="-fx-font-weight: bold;" text="User Name" />
+      <Label fx:id="PasswordLabel" layoutX="89.0" layoutY="119.0" style="-fx-font-weight: bold;" text="Password" />
       <Label fx:id="LocaleLabel" layoutX="212.0" layoutY="199.0" text="Locale" />
       <Button fx:id="exitButton" layoutX="248.0" layoutY="163.0" mnemonicParsing="false" onAction="#OnClickExit" prefHeight="25.0" prefWidth="50.0" text="Exit" />
-      <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" layoutX="98.0" layoutY="14.0" prefHeight="17.0" prefWidth="283.0" style="-fx-font-weight: bold;" text="C195 Scheduling Project" textAlignment="CENTER" textFill="#0d0d0d">
+      <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" layoutX="16.0" layoutY="14.0" prefHeight="31.0" prefWidth="449.0" style="-fx-font-weight: bold;" text="C195 Scheduling Project" textAlignment="CENTER" textFill="#0d0d0d">
          <font>
             <Font size="21.0" />
          </font>

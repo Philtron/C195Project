@@ -1,5 +1,9 @@
 package Model;
 
+import DatabaseAccess.JDBC;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class Customer {
@@ -66,4 +70,10 @@ public class Customer {
     public int getDivisionID() {
         return divisionID;
     }
+
+    public String toString(){
+        return (this.name);
+    }
+
+
 }

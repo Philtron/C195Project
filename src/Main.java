@@ -11,13 +11,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.Locale;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("View/LogInWindow.fxml"));
-//        primaryStage.centerOnScreen();
-        primaryStage.setTitle("C195 Philip Sauer.");
+        primaryStage.setTitle("C195 Philip Sauer");
         primaryStage.setScene(new Scene(root, 480, 250));
         primaryStage.show();
     }
@@ -25,8 +26,9 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         JDBC.openConnection();
-
-
+//        Locale.setDefault(new Locale("fr"));
+//        String testString = "Moo";
+//        System.out.println(testString.length());
         launch(args);
         JDBC.closeConnection();
     }

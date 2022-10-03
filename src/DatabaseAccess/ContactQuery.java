@@ -1,6 +1,7 @@
 package DatabaseAccess;
 
 import Model.Contact;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
@@ -9,7 +10,9 @@ import java.sql.SQLException;
 
 public class ContactQuery {
 
-    public static void selectAllToList(ObservableList<Contact> allContacts){
+    public static ObservableList<Contact> selectAllToList(){
+        ObservableList<Contact> allContacts = FXCollections.observableArrayList();
+
         String sql = "SELECT * FROM contacts";
         try {
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -25,5 +28,7 @@ public class ContactQuery {
 
             e.printStackTrace();
         }
+        return allContacts;
     }
+
 }

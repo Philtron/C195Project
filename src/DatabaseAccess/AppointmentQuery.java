@@ -10,11 +10,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public abstract class AppointmentQuery {
+
     public static void insert(String title, String description, String location, String type, ZonedDateTime start, ZonedDateTime end,
                              ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy,
                              int customerID, int userID, int contactID) {
@@ -91,5 +93,39 @@ public abstract class AppointmentQuery {
             e.printStackTrace();
         }
         return allAppointments;
+    }
+
+    public static void modifyAppointment(String title, String description, String location, String type,
+                                         ZonedDateTime startTime, ZonedDateTime endTime, Timestamp lastUpdate,
+                                         String lastUpdateBy, int customerID, int userID, int contactID, int appointmentID) {
+
+        String sql = "UPDATE appointments SET Title = ?, Description=?, Location=?, Start=?, End=?, Last_Update = ?, " +
+                "Last_Updated_By=?, Customer_ID=?, User_ID=?, Contact_ID=?, Type=? WHERE Appointment_ID=?";
+        try{
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ps.setString(1, title);
+            ps.setString(2, description);
+            ps.setString(3, location);
+            Instant startInstant = startTime.toInstant();
+            ps.setTimestamp(4, Timestamp.from(startInstant));
+            Instant endInstant = endTime.toInstant();
+            ps.setTimestamp(5, Timestamp.from(endInstant));
+            Instant lastUpdateInstant = lastUpdate.toInstant();
+            ps.setTimestamp(6, Timestamp.from(lastUpdateInstant));
+            ps.setString(7, lastUpdateBy);
+            ps.setInt(8, customerID);
+            ps.setInt(9, userID);
+            ps.setInt(10, contactID);
+            ps.setString(11, type);
+            ps.setInt(12, appointmentID);
+
+            System.out.println(sql);
+            int rowsAffected = ps.executeUpdate();
+            Utils.updatePassFail(rowsAffected);
+
+        } catch (SQLException e){
+            System.out.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

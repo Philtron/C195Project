@@ -1,5 +1,6 @@
 package DatabaseAccess;
 
+import Controller.LogInWindowController;
 import Helper.Utils;
 import Model.Appointment;
 import Model.Customer;
@@ -14,6 +15,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 
 public abstract class AppointmentQuery {
 
@@ -127,5 +129,53 @@ public abstract class AppointmentQuery {
             System.out.println("ERROR: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+    public static ArrayList<String> appointmentsInFifteenMinutes(){
+        StringBuilder apptString = new StringBuilder();
+        ArrayList<String> appointmentsInFifteen = new ArrayList<>();
+        int userID = LogInWindowController.loggedInUser.getUserID();
+
+        ZonedDateTime currentTime = ZonedDateTime.now();
+        ZonedDateTime startTIme = currentTime.plusMinutes(15);
+//        LocalDateTime startTime = LocalDateTime.now().plusMinutes(15);
+//        ZonedDateTime zStartTime = ZonedDateTime.of(startTime, ZoneId.systemDefault());
+
+//        ObservableList<Appointment> appointmentsIn15 = FXCollections.observableArrayList();
+
+        String sql = "SELECT a.Appointment_ID, a.Start, c.Customer_Name FROM appointments a " +
+                "JOIN customers c ON a.Customer_ID = c.Customer_ID " +
+                "WHERE Start BETWEEN ? AND ? " +
+                "AND a.User_ID = ? ";
+
+        try {
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ps.setString(1, currentTime.toString());
+            ps.setString(2, startTIme.toString());
+            ps.setInt(3, userID);
+            System.out.println(ps);
+
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                int apptID = rs.getInt("Appointment_ID");
+                Timestamp start = rs.getTimestamp("Start");
+                String custName = rs.getString("Customer_Name");
+
+                System.out.println("Appending: " + String.valueOf(apptID) + " " + start );
+                apptString.append("Appointment ID: ");
+                apptString.append(String.valueOf(apptID));
+                apptString.append(" Start: ");
+                apptString.append(start);
+                apptString.append(" Customer: ");
+                apptString.append(custName);
+                appointmentsInFifteen.add(apptString.toString());
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return appointmentsInFifteen;
     }
 }

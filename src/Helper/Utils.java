@@ -9,6 +9,9 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 public class Utils {
@@ -32,6 +35,17 @@ public class Utils {
             displayAlert("Update Successful");
         } else {
             displayAlert("UPDATE FAILED");
+        }
+    }
+
+    public static Boolean verifyBusinessHours(ZonedDateTime start, ZonedDateTime end) {
+        ZonedDateTime businessOpen = ZonedDateTime.of(start.toLocalDate(), LocalTime.of(8,0), ZoneId.of("US/Eastern"));
+        ZonedDateTime businessClose = ZonedDateTime.of(end.toLocalDate(), LocalTime.of(22, 0), ZoneId.of("US/Eastern"));
+
+        if((start.isBefore(businessOpen)) || (start.isAfter(businessClose)) || (end.isBefore(businessOpen)) || (end.isAfter(businessClose))){
+            return false;
+        } else {
+            return true;
         }
     }
 }

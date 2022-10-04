@@ -54,18 +54,24 @@ public class ModifyCustomerWindowController implements Initializable {
 
     @FXML
     void onClickModifyCustomer(ActionEvent event) throws IOException {
-        int customerID = Integer.valueOf(custIDTextField.getText());
-        String customerName = custNameTextField.getText();
-        String address = addressTextField.getText();
-        String zip = postalCodeTextField.getText();
-        String phone = phoneTextField.getText();
+        if((custNameTextField.getText() == "")||(addressTextField.getText() == "")||(postalCodeTextField.getText()== "")
+                ||(phoneTextField.getText() =="")){
+            Utils.displayAlert("Please ensure there is a value in each text field");
+        } else if ((countryComboBox.getValue()==null)||(divisionComboBox.getValue()==null)) {
+            Utils.displayAlert("Please enter a country and division in the comboboxes.");
+        } else {
+            int customerID = Integer.valueOf(custIDTextField.getText());
+            String customerName = custNameTextField.getText();
+            String address = addressTextField.getText();
+            String zip = postalCodeTextField.getText();
+            String phone = phoneTextField.getText();
 //        String country = countryComboBox.getValue().getCountry();
-        int divisionID = divisionComboBox.getValue().getDivisionID();
-        User createUser = LogInWindowController.loggedInUser;
-        CustomerQuery.modifyCustomer(customerID, customerName, address, zip, phone,
-                createUser.getUserName(), Timestamp.valueOf(LocalDateTime.now()), createUser.getUserName(), divisionID );
-        Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");
-
+            int divisionID = divisionComboBox.getValue().getDivisionID();
+            User createUser = LogInWindowController.loggedInUser;
+            CustomerQuery.modifyCustomer(customerID, customerName, address, zip, phone,
+                    createUser.getUserName(), Timestamp.valueOf(LocalDateTime.now()), createUser.getUserName(), divisionID);
+            Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");
+        }
     }
 
     @FXML

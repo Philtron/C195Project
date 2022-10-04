@@ -1,5 +1,6 @@
 package Controller;
 
+import DatabaseAccess.AppointmentQuery;
 import DatabaseAccess.JDBC;
 import DatabaseAccess.UserQuery;
 import Helper.Utils;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -53,6 +55,11 @@ public class LogInWindowController implements Initializable {
             Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
             loggedInUser = UserQuery.selectUser(uname);
             System.out.println(loggedInUser);
+            ArrayList<String> yeah = AppointmentQuery.appointmentsInFifteenMinutes();
+            for(int i = 0; i < yeah.size(); i++){
+                System.out.println(yeah.get(i));
+                System.out.println(i);
+            }
         } else {
             ResourceBundle resourceBundle = ResourceBundle.getBundle("LogIn");
             String logInError = resourceBundle.getString("InvalidLogIn");

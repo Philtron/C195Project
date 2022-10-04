@@ -71,20 +71,20 @@ public class AddAppointmentWindowController implements Initializable {
 
     @FXML
     void onClickSaveAppointment(ActionEvent event) throws IOException {
-        if((titleTextField.getText() == null) ||( typeTextField.getText() == null)
-                || (descTextField.getText() == null) || (locTextField.getText() == null)){
+        if((titleTextField.getText() == "") ||( typeTextField.getText() == "")
+                || (descTextField.getText() == "") || (locTextField.getText() == "")){
 
-            System.out.println("Please enter a value in all text fields.");
+            Utils.displayAlert("Please enter a value in all text fields.");
 
         } else if((custComboBox.getValue() == null) || contactComboBox.getValue() == null ) {
-            System.out.println("Please ensure a value is selected in each combo box.");
+            Utils.displayAlert("Please ensure a value is selected in each combo box.");
         } else if((startDatePicker.getValue() == null) || (startHourComboBox.getValue()== null) ||
                 (startMinuteComboBox.getValue() == null) || (endHourComboBox.getValue() == null) ||
                 (endMinuteComboBox.getValue()== null)) {
-            System.out.println("Please select the date and start and finish hours and minutes. ");
+            Utils.displayAlert("Please select the date and start and finish hours and minutes. ");
         } else {
-            Contact contact = contactComboBox.getValue();
-            Customer customer = custComboBox.getValue();
+            int contactID = contactComboBox.getValue().getContactID();
+            int customerID = custComboBox.getValue().getCustomerID();
             User user = LogInWindowController.loggedInUser;
 
             LocalDate date = startDatePicker.getValue();
@@ -106,12 +106,15 @@ public class AddAppointmentWindowController implements Initializable {
             String location = locTextField.getText();
             String type = typeTextField.getText();
 
-            int  customerID = Integer.valueOf(custIDTextField.getText());
-            int contactID = contact.getContactID();
-
-            AppointmentQuery.insert(title, description, location, type, zdtStart, zdtEnd, ZonedDateTime.now(),
-                    user.getUserName(), ZonedDateTime.now(), user.getUserName(), customerID, user.getUserID(), contactID);
-            Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
+//            int  customerID = Integer.valueOf(custIDTextField.getText());
+//            int contactID = contact.getContactID();
+            if (Utils.verifyBusinessHours(zdtStart, zdtEnd)) {
+                AppointmentQuery.insert(title, description, location, type, zdtStart, zdtEnd, ZonedDateTime.now(),
+                        user.getUserName(), ZonedDateTime.now(), user.getUserName(), customerID, user.getUserID(), contactID);
+                Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
+            } else {
+                Utils.displayAlert("Please schedule the appointment during business hours (0800-2200 UTC).");
+            }
         }
     }
     public void setCombos(){

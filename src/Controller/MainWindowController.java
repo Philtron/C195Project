@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -117,7 +118,7 @@ public class MainWindowController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
+        toggleLabel.setText(LocalDateTime.now().toString());
         setTable(AppointmentQuery.selectAllToTableViewList());
         apptIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         custIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));

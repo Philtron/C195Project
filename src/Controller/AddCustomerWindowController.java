@@ -80,16 +80,23 @@ public class AddCustomerWindowController implements Initializable {
 
     @FXML
     void onClickSaveCustomer(ActionEvent event) throws IOException {
-        String customerName = custNameTextField.getText();
-        String address = addressTextField.getText();
-        String zip = postalCodeTextField.getText();
-        String phone = phoneNumberTextField.getText();
-        String country = countryComboBox.getValue().getCountry();
-        int divisionID = divisionComboBox.getValue().getDivisionID();
-        User createUser = LogInWindowController.loggedInUser;
-        CustomerQuery.insertCustomer(customerName, address, zip, phone, Timestamp.valueOf(LocalDateTime.now()),
-                createUser.getUserName(), Timestamp.valueOf(LocalDateTime.now()), createUser.getUserName(), divisionID );
-        Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");
+        if((custNameTextField.getText() == "")||(addressTextField.getText() == "")||(postalCodeTextField.getText()== "")
+                ||(phoneNumberTextField.getText() =="")){
+            Utils.displayAlert("Please ensure there is a value in each text field");
+        } else if ((countryComboBox.getValue()==null)||(divisionComboBox.getValue()==null)) {
+            Utils.displayAlert("Please enter a country and division in the comboboxes.");
+        } else {
+            String customerName = custNameTextField.getText();
+            String address = addressTextField.getText();
+            String zip = postalCodeTextField.getText();
+            String phone = phoneNumberTextField.getText();
+            String country = countryComboBox.getValue().getCountry();
+            int divisionID = divisionComboBox.getValue().getDivisionID();
+            User createUser = LogInWindowController.loggedInUser;
+            CustomerQuery.insertCustomer(customerName, address, zip, phone, Timestamp.valueOf(LocalDateTime.now()),
+                    createUser.getUserName(), Timestamp.valueOf(LocalDateTime.now()), createUser.getUserName(), divisionID);
+            Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");
+        }
     }
 
     @Override

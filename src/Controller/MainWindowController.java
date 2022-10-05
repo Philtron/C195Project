@@ -1,7 +1,6 @@
 package Controller;
 
 import DatabaseAccess.AppointmentQuery;
-import DatabaseAccess.JDBC;
 import Helper.Utils;
 import Model.Appointment;
 import javafx.collections.ObservableList;
@@ -79,6 +78,7 @@ public class MainWindowController implements Initializable {
     void onClickExit(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Would you like to log out or exit completely?");
+        alert.setTitle("Exit?");
 
         ButtonType logout = new ButtonType("Log Out");
         ButtonType exit = new ButtonType("Exit Program");
@@ -89,7 +89,7 @@ public class MainWindowController implements Initializable {
 
         if (result.get() == logout){
             Utils.changeWindow(event, "../View/LogInWindow.fxml", "Log In");
-            LogInWindowController.loggedInUser = null;
+            LogInWindowController.CurrentUser = null;
         } else if (result.get() == exit){
             System.exit(0);
         } else if (result.get() == cancel) {
@@ -127,17 +127,21 @@ public class MainWindowController implements Initializable {
     }
 
     public void onClickDeleteAppointment(ActionEvent event) {
-        Appointment appt = appointmentTable.getSelectionModel().getSelectedItem();
-        int apptID = appt.getAppointmentID();
-        String apptType = appt.getType();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this appointment?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if ((result.isPresent()) && (result.get() == ButtonType.OK)){
-            if (AppointmentQuery.delete(appt.getAppointmentID())) {
-                setTable(AppointmentQuery.selectAllToTableViewList());
-                String message = "Appointment ID: " + apptID + " Type: " + apptType + " successfully deleted.";
-                Utils.displayAlert(message);
+        if(appointmentTable.getSelectionModel().getSelectedItem() != null) {
+            Appointment appt = appointmentTable.getSelectionModel().getSelectedItem();
+            int apptID = appt.getAppointmentID();
+            String apptType = appt.getType();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this appointment?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+                if (AppointmentQuery.delete(appt.getAppointmentID())) {
+                    setTable(AppointmentQuery.selectAllToTableViewList());
+                    String message = "Appointment ID: " + apptID + " Type: " + apptType + " successfully deleted.";
+                    Utils.displayAlert(message);
+                }
             }
+        } else {
+            Utils.displayAlert("Please select an appointment to Delete.");
         }
     }
 
@@ -146,8 +150,12 @@ public class MainWindowController implements Initializable {
     }
 
     public void onClickEditAppointment(ActionEvent event) throws IOException {
-        ModifyAppointmentWindowController.appointment = appointmentTable.getSelectionModel().getSelectedItem();
-        Utils.changeWindow(event, "../View/ModifyAppointmentWindow.fxml", "Modify Appointment");
+        if(appointmentTable.getSelectionModel().getSelectedItem() != null) {
+            ModifyAppointmentWindowController.appointment = appointmentTable.getSelectionModel().getSelectedItem();
+            Utils.changeWindow(event, "../View/ModifyAppointmentWindow.fxml", "Modify Appointment");
+        } else {
+            Utils.displayAlert("Please select an appointment to modify");
+        }
     }
 
 

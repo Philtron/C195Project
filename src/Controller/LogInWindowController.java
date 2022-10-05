@@ -3,6 +3,7 @@ package Controller;
 import DatabaseAccess.AppointmentQuery;
 import DatabaseAccess.JDBC;
 import DatabaseAccess.UserQuery;
+import Helper.Logging;
 import Helper.Utils;
 import Model.User;
 import javafx.event.ActionEvent;
@@ -12,14 +13,13 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LogInWindowController implements Initializable {
-    public static User loggedInUser;
+    public static User CurrentUser;
 
     @FXML
     private Label titleLabel;
@@ -52,14 +52,21 @@ public class LogInWindowController implements Initializable {
         String password = PasswordTextField.getText();
 
         if(UserQuery.logIn(uname, password)){
+            Logging.logLogIn(true, uname);
+            CurrentUser = UserQuery.selectUser(uname);
             Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
-            loggedInUser = UserQuery.selectUser(uname);
-            ArrayList<String> yeah = AppointmentQuery.appointmentsInFifteenMinutes();
-            for(int i = 0; i < yeah.size(); i++){
-                System.out.println(yeah.get(i));
-                System.out.println(i);
+            ArrayList<String> appointmentsInFifteenMinutes = AppointmentQuery.appointmentsInFifteenMinutes();
+            if(appointmentsInFifteenMinutes.size()>=1){
+                for(int i = 0; i < appointmentsInFifteenMinutes.size(); i++) {
+                    Utils.displayAlert(appointmentsInFifteenMinutes.get(i), "Appointments in 15 Minutes or Less: ");
+                    System.out.println(appointmentsInFifteenMinutes.get(i));
+                }
+            } else {
+                Utils.displayAlert("No appointments scheduled in the next fifteen minutes.");
             }
+
         } else {
+            Logging.logLogIn(false, uname);
             ResourceBundle resourceBundle = ResourceBundle.getBundle("LogIn");
             String logInError = resourceBundle.getString("InvalidLogIn");
             Alert alert = new Alert(Alert.AlertType.ERROR, logInError);

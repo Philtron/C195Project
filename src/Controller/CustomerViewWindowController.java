@@ -72,7 +72,7 @@ public class CustomerViewWindowController implements Initializable {
 
         if (result.get() == logout){
             Utils.changeWindow(event, "../View/LogInWindow.fxml", "Log In");
-            LogInWindowController.loggedInUser = null;
+            LogInWindowController.CurrentUser = null;
         } else if (result.get() == exit){
             System.exit(0);
         } else if (result.get() == cancel) {

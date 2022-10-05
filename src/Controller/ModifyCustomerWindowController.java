@@ -67,7 +67,7 @@ public class ModifyCustomerWindowController implements Initializable {
             String phone = phoneTextField.getText();
 //        String country = countryComboBox.getValue().getCountry();
             int divisionID = divisionComboBox.getValue().getDivisionID();
-            User createUser = LogInWindowController.loggedInUser;
+            User createUser = LogInWindowController.CurrentUser;
             CustomerQuery.modifyCustomer(customerID, customerName, address, zip, phone,
                     createUser.getUserName(), Timestamp.valueOf(LocalDateTime.now()), createUser.getUserName(), divisionID);
             Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");

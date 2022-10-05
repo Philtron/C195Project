@@ -20,14 +20,11 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ResourceBundle;
 
 public class ModifyAppointmentWindowController implements Initializable {
     public static Appointment appointment;
@@ -80,9 +77,7 @@ public class ModifyAppointmentWindowController implements Initializable {
     void onClickSaveAppointment(ActionEvent event) throws IOException {
         if((titleTextField.getText() == "") ||( typeTextField.getText() == "")
                 || (descTextField.getText() == "") || (locTextField.getText() == "")){
-
             Utils.displayAlert("Please enter a value in all text fields.");
-
         } else if((custComboBox.getValue() == null) || contactComboBox.getValue() == null ) {
             Utils.displayAlert("Please ensure a value is selected in each combo box.");
         } else if((startDatePicker.getValue() == null) || (startHourComboBox.getValue()== null) ||
@@ -93,7 +88,7 @@ public class ModifyAppointmentWindowController implements Initializable {
 
             int contactID = contactComboBox.getValue().getContactID();
             int customerID = Integer.valueOf(custIDTextField.getText());
-            int userID = LogInWindowController.loggedInUser.getUserID();
+            int userID = LogInWindowController.CurrentUser.getUserID();
             String description = descTextField.getText();
             String location = locTextField.getText();
             String title = titleTextField.getText();
@@ -112,20 +107,24 @@ public class ModifyAppointmentWindowController implements Initializable {
             LocalDateTime ldtStart = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), startHour, startMinute);
             LocalDateTime ldtEnd = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), endHour, endMinute);
 
-            ZonedDateTime zdtStart = ZonedDateTime.of(ldtStart, ZoneId.systemDefault());
-            ZonedDateTime zdtEnd = ZonedDateTime.of(ldtEnd, ZoneId.systemDefault());
-
-
-
-            // TODO Check for overlapping Customers
-            if(Utils.verifyBusinessHours(zdtStart, zdtEnd)) {
-                AppointmentQuery.modifyAppointment(title, description, location, type, zdtStart, zdtEnd,
-                        Timestamp.valueOf(LocalDateTime.now()), LogInWindowController.loggedInUser.getUserName(), customerID,
-                        userID, contactID, appointment.getAppointmentID());
-
-                Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
+            if (ldtEnd.isBefore(ldtStart)) {
+                Utils.displayAlert("End time cannot be before start time");
             } else {
-                Utils.displayAlert("Please schedule the appointment during business hours (0800-2200 EST).");
+
+                ZonedDateTime zdtStart = ZonedDateTime.of(ldtStart, ZoneId.systemDefault());
+                ZonedDateTime zdtEnd = ZonedDateTime.of(ldtEnd, ZoneId.systemDefault());
+
+
+                // TODO Check for overlapping Customer appointments
+                if (Utils.verifyBusinessHours(zdtStart, zdtEnd)) {
+                    AppointmentQuery.modifyAppointment(title, description, location, type, ldtStart, ldtEnd,
+                            Timestamp.valueOf(LocalDateTime.now()), LogInWindowController.CurrentUser.getUserName(), customerID,
+                            userID, contactID, appointment.getAppointmentID());
+
+                    Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
+                } else {
+                    Utils.displayAlert("Please schedule the appointment during business hours (0800-2200 EST).");
+                }
             }
         }
     }
@@ -139,8 +138,6 @@ public class ModifyAppointmentWindowController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Customer selCustomer = CustomerQuery.select(appointment.getCustomerName());
         Contact selContact = ContactQuery.select(appointment.getContactName());
-        System.out.println(selCustomer.getName());
-        System.out.println(selContact.getContactName());
         setCombos();
 
         appointmentIDTextField.setText(String.valueOf(appointment.getAppointmentID()));
@@ -181,7 +178,7 @@ public class ModifyAppointmentWindowController implements Initializable {
         for(int i = 1; i <= 24; i++){
             hours.add(i);
         }
-        for(int i = 0; i < 60; i++){
+        for(int i = 0; i < 60; i+=5){
             minutes.add(i);
         }
         startHourComboBox.setItems(hours);

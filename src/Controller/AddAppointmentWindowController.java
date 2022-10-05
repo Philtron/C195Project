@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import jdk.jshell.execution.Util;
 
 import java.io.IOException;
 import java.net.URL;
@@ -85,7 +86,7 @@ public class AddAppointmentWindowController implements Initializable {
         } else {
             int contactID = contactComboBox.getValue().getContactID();
             int customerID = custComboBox.getValue().getCustomerID();
-            User user = LogInWindowController.loggedInUser;
+            User user = LogInWindowController.CurrentUser;
 
             LocalDate date = startDatePicker.getValue();
 
@@ -117,12 +118,31 @@ public class AddAppointmentWindowController implements Initializable {
         }
     }
     public void setCombos(){
+//        LocalDateTime ldtNow = LocalDateTime.now();
+//        ZoneId easternZID = ZoneId.of("US/Eastern");
+//        ZonedDateTime zdtNow = ZonedDateTime.of(ldtNow,ZoneId.systemDefault());
+//        int localOffset  = zdtNow.getOffset().getTotalSeconds();
+//        localOffset /= 3600;
+//        ZonedDateTime easternZDT = ZonedDateTime.ofInstant(zdtNow.toInstant(), easternZID);
+//        int easternOffset = easternZDT.getOffset().getTotalSeconds();
+//        easternOffset /= 3600;
+//        int offsetDifference = localOffset - easternOffset;
+//        int localStart = 8 + offsetDifference;
+//        int localStop = localStart + 14;
+//        Utils.displayAlert(localStart + " " + localStop);
+
+
         ObservableList<Integer> hours = FXCollections.observableArrayList();
         ObservableList<Integer> minutes = FXCollections.observableArrayList();
-        for(int i = 1; i <= 24; i++){
+//        int hourStart = Utils.getLocalBusinessStartHour();
+//        int hourStop = hourStart+14;
+//        System.out.println("Start: " + hourStart + " Stop: " + hourStop);
+        int hourStart = 0;
+        int hourStop =24;
+        for(int i = hourStart; i <= hourStop; i++){
             hours.add(i);
         }
-        for(int i = 0; i < 60; i++){
+        for(int i = 0; i < 60; i+=5){
             minutes.add(i);
         }
         startHourComboBox.setItems(hours);

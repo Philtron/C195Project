@@ -3,7 +3,6 @@ package DatabaseAccess;
 import Controller.LogInWindowController;
 import Helper.Utils;
 import Model.Appointment;
-import Model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -79,10 +78,10 @@ public abstract class AppointmentQuery {
                 String location = rs.getString("Location");
                 String type = rs.getString("Type");
                 String description = rs.getString("Description");
-                LocalDateTime time = rs.getTimestamp("Start").toLocalDateTime();
-                ZonedDateTime start = ZonedDateTime.of(time, ZoneId.systemDefault());
-                time = rs.getTimestamp("End").toLocalDateTime();
-                ZonedDateTime end = ZonedDateTime.of(time, ZoneId.systemDefault());
+                LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
+//                LocalDateTime start = ZonedDateTime.of(time, ZoneId.systemDefault());
+                LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+//                LocalDateTime end = ZonedDateTime.of(time, ZoneId.systemDefault());
                 int userID = rs.getInt("User_ID");
                 String conName = rs.getString("Contact_Name");
 
@@ -98,7 +97,7 @@ public abstract class AppointmentQuery {
     }
 
     public static void modifyAppointment(String title, String description, String location, String type,
-                                         ZonedDateTime startTime, ZonedDateTime endTime, Timestamp lastUpdate,
+                                         LocalDateTime startTime, LocalDateTime endTime, Timestamp lastUpdate,
                                          String lastUpdateBy, int customerID, int userID, int contactID, int appointmentID) {
 
         String sql = "UPDATE appointments SET Title = ?, Description=?, Location=?, Start=?, End=?, Last_Update = ?, " +
@@ -108,12 +107,14 @@ public abstract class AppointmentQuery {
             ps.setString(1, title);
             ps.setString(2, description);
             ps.setString(3, location);
-            Instant startInstant = startTime.toInstant();
-            ps.setTimestamp(4, Timestamp.from(startInstant));
-            Instant endInstant = endTime.toInstant();
-            ps.setTimestamp(5, Timestamp.from(endInstant));
-            Instant lastUpdateInstant = lastUpdate.toInstant();
-            ps.setTimestamp(6, Timestamp.from(lastUpdateInstant));
+//            Instant startInstant = startTime.toInstant();
+//            ps.setTimestamp(4, Timestamp.from(startInstant));
+//            Instant endInstant = endTime.toInstant();
+//            ps.setTimestamp(5, Timestamp.from(endInstant));
+            ps.setTimestamp(4, Timestamp.valueOf(startTime));
+//            Instant lastUpdateInstant = lastUpdate.toInstant();
+            ps.setTimestamp(5, Timestamp.valueOf(endTime));
+            ps.setTimestamp(6, lastUpdate);
             ps.setString(7, lastUpdateBy);
             ps.setInt(8, customerID);
             ps.setInt(9, userID);
@@ -133,26 +134,22 @@ public abstract class AppointmentQuery {
     public static ArrayList<String> appointmentsInFifteenMinutes(){
         StringBuilder apptString = new StringBuilder();
         ArrayList<String> appointmentsInFifteen = new ArrayList<>();
-        int userID = LogInWindowController.loggedInUser.getUserID();
 
-        ZonedDateTime currentTime = ZonedDateTime.now();
-        ZonedDateTime startTIme = currentTime.plusMinutes(15);
-//        LocalDateTime startTime = LocalDateTime.now().plusMinutes(15);
-//        ZonedDateTime zStartTime = ZonedDateTime.of(startTime, ZoneId.systemDefault());
+        LocalDateTime currentTime = LocalDateTime.now();
+//        Utils.displayAlert(currentTime.toString());
+        LocalDateTime startTIme = currentTime.plusMinutes(15);
 
-//        ObservableList<Appointment> appointmentsIn15 = FXCollections.observableArrayList();
 
         String sql = "SELECT a.Appointment_ID, a.Start, c.Customer_Name FROM appointments a " +
                 "JOIN customers c ON a.Customer_ID = c.Customer_ID " +
-                "WHERE Start BETWEEN ? AND ? " +
-                "AND a.User_ID = ? ";
+                "WHERE Start BETWEEN ? AND ? ";
 
         try {
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-            ps.setString(1, currentTime.toString());
-            ps.setString(2, startTIme.toString());
-            ps.setInt(3, userID);
-            System.out.println(ps);
+//            ps.setString(1, currentTime.toString());
+            ps.setTimestamp(1, Timestamp.valueOf(currentTime));
+            ps.setTimestamp(2, Timestamp.valueOf(startTIme) );
+            System.out.println("HI!" + ps);
 
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -163,11 +160,13 @@ public abstract class AppointmentQuery {
                 System.out.println("Appending: " + String.valueOf(apptID) + " " + start );
                 apptString.append("Appointment ID: ");
                 apptString.append(String.valueOf(apptID));
-                apptString.append(" Start: ");
+                apptString.append("\nStart: ");
                 apptString.append(start);
-                apptString.append(" Customer: ");
+                apptString.append("\nCustomer: ");
                 apptString.append(custName);
                 appointmentsInFifteen.add(apptString.toString());
+                System.out.println("Added! " + appointmentsInFifteen.size());
+                apptString.setLength(0);
 
             }
 

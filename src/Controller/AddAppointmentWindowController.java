@@ -106,14 +106,13 @@ public class AddAppointmentWindowController implements Initializable {
             String location = locTextField.getText();
             String type = typeTextField.getText();
 
-//            int  customerID = Integer.valueOf(custIDTextField.getText());
-//            int contactID = contact.getContactID();
+            // TODO Check for overlapping Customers
             if (Utils.verifyBusinessHours(zdtStart, zdtEnd)) {
                 AppointmentQuery.insert(title, description, location, type, zdtStart, zdtEnd, ZonedDateTime.now(),
                         user.getUserName(), ZonedDateTime.now(), user.getUserName(), customerID, user.getUserID(), contactID);
                 Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
             } else {
-                Utils.displayAlert("Please schedule the appointment during business hours (0800-2200 UTC).");
+                Utils.displayAlert("Please schedule the appointment during business hours (0800-2200 EST).");
             }
         }
     }

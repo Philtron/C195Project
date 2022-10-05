@@ -18,8 +18,7 @@ public class UserQuery {
             Connection con = JDBC.getConnection();
             PreparedStatement query = con.prepareStatement("SELECT * FROM users WHERE User_Name =\"" + uName + "\" AND " +
                     "Password =\"" + password + "\"");
-            System.out.println("SELECT * FROM users WHERE User_Name =\"" + uName + "\" AND " +
-                    "Password =\"" + password + "\"");
+
             ResultSet rs = query.executeQuery();
             if (rs.next()) {
                 return true;
@@ -39,7 +38,7 @@ public class UserQuery {
         try {
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
             ps.setString(1, userName);
-            System.out.println(ps);
+//            System.out.println(ps);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 int userID = rs.getInt(1);

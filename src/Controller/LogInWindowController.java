@@ -46,7 +46,7 @@ public class LogInWindowController implements Initializable {
     private TextField UNameTextField;
 
     @FXML
-    void OnClickLogIn(ActionEvent event) throws SQLException, IOException {
+    void OnClickLogIn(ActionEvent event) throws IOException {
 
         String uname = UNameTextField.getText();
         String password = PasswordTextField.getText();
@@ -54,7 +54,6 @@ public class LogInWindowController implements Initializable {
         if(UserQuery.logIn(uname, password)){
             Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
             loggedInUser = UserQuery.selectUser(uname);
-            System.out.println(loggedInUser);
             ArrayList<String> yeah = AppointmentQuery.appointmentsInFifteenMinutes();
             for(int i = 0; i < yeah.size(); i++){
                 System.out.println(yeah.get(i));

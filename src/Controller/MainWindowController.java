@@ -95,14 +95,6 @@ public class MainWindowController implements Initializable {
         } else if (result.get() == cancel) {
             alert.close();
         }
-
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to exit?");
-//        alert.setTitle("Exit?");
-//        Optional<ButtonType> result = alert.showAndWait();
-//        if ((result.isPresent()) && (result.get() == ButtonType.OK)){
-//            JDBC.closeConnection();
-//            System.exit(0);
-//        }
     }
 
 

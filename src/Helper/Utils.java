@@ -84,7 +84,7 @@ public class Utils {
     public static boolean checkCustomerOverlap(ZonedDateTime startOne, ZonedDateTime endOne, int customerID){
         Customer customer = CustomerQuery.select(customerID);
         ObservableList<Appointment> appointments = AppointmentQuery.filterByCustomerID(customerID);
-        System.out.println("check customer: " + appointments);
+//        System.out.println("check customer: " + appointments);
         for(int i=0; i < appointments.size();i++){
             ZonedDateTime startTwo = ZonedDateTime.of(appointments.get(i).getStart(),ZoneId.systemDefault());
             ZonedDateTime endTwo = ZonedDateTime.of(appointments.get(i).getEnd(), ZoneId.systemDefault());

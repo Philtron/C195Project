@@ -20,11 +20,8 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.*;
 import java.util.ResourceBundle;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
 public class ModifyAppointmentWindowController implements Initializable {
     public static Appointment appointment;
@@ -60,6 +57,7 @@ public class ModifyAppointmentWindowController implements Initializable {
 
     @FXML
     private ComboBox<Integer> startHourComboBox;
+//    private ComboBox<LocalTime> startHourComboBox;
 
     @FXML
     private ComboBox<Integer> startMinuteComboBox;
@@ -98,6 +96,7 @@ public class ModifyAppointmentWindowController implements Initializable {
             LocalDate date = startDatePicker.getValue();
 
             int startHour = startHourComboBox.getValue();
+
             int startMinute = startMinuteComboBox.getValue();
 
             int endHour = endHourComboBox.getValue();

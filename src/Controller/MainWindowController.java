@@ -160,21 +160,19 @@ public class MainWindowController implements Initializable {
 
 
     public void onToggleNoFilter(ActionEvent event) {
-//        if(event.getSource() == noFilterButton) {
             toggleLabel.setText("All");
-//        }
+//            appointmentTable.setItems(AppointmentQuery.selectAllToTableViewList());
+            setTable(AppointmentQuery.selectAllToTableViewList());
     }
 
 
     public void onToggleFilterByWeek(ActionEvent event) {
-//        if (event.getSource()== weekFilterButton) {
             toggleLabel.setText("Week");
-//        }
+            setTable(AppointmentQuery.filterByWeek(LocalDateTime.now()));
     }
 
     public void onToggleMonthFilter(ActionEvent event) {
-//        if(event.getSource() == monthFilterButton) {
             toggleLabel.setText("Month");
-//        }
+            setTable(AppointmentQuery.filterByMonth());
     }
 }

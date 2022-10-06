@@ -54,7 +54,7 @@ public class CustomerViewWindowController implements Initializable {
 
     @FXML
     void onClickAddCustomer(ActionEvent event) throws IOException {
-        Utils.changeWindow(event, "../View/AddCustomerWindow.fxml", "Add Customer");
+        Utils.changeWindow(event, Utils.ADD_CUSTOMER_WINDOW_LOCATION, "Add Customer");
     }
 
     @FXML
@@ -71,7 +71,7 @@ public class CustomerViewWindowController implements Initializable {
 
 
         if (result.get() == logout){
-            Utils.changeWindow(event, "../View/LogInWindow.fxml", "Log In");
+            Utils.changeWindow(event, Utils.LOG_IN_WINDOW_LOCATION, "Log In");
             LogInWindowController.CurrentUser = null;
         } else if (result.get() == exit){
             System.exit(0);
@@ -88,7 +88,7 @@ public class CustomerViewWindowController implements Initializable {
 
     @FXML
     void onClickMainWindow(ActionEvent event) throws IOException {
-        Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
+        Utils.changeWindow(event, Utils.MAIN_WINDOW_LOCATION, "Main Window");
     }
 
     public void setTable(){
@@ -122,7 +122,7 @@ public class CustomerViewWindowController implements Initializable {
             Utils.displayAlert("Please Select a customer to Modify.");
         } else {
             ModifyCustomerWindowController.customer = customerTable.getSelectionModel().getSelectedItem();
-            Utils.changeWindow(event, "../View/ModifyCustomerWindow.fxml", "Modify Customer");
+            Utils.changeWindow(event, Utils.MODIFY_CUSTOMER_WINDOW_LOCATION, "Modify Customer");
         }
     }
 }

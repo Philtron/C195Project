@@ -111,7 +111,7 @@ public class AddAppointmentWindowController implements Initializable {
             if (Utils.verifyBusinessHours(zdtStart, zdtEnd)) {
                 AppointmentQuery.insert(title, description, location, type, zdtStart, zdtEnd, ZonedDateTime.now(),
                         user.getUserName(), ZonedDateTime.now(), user.getUserName(), customerID, user.getUserID(), contactID);
-                Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
+                Utils.changeWindow(event, Utils.MAIN_WINDOW_LOCATION, "Main Window");
             } else {
                 Utils.displayAlert("Please schedule the appointment during business hours (0800-2200 EST).");
             }
@@ -153,7 +153,9 @@ public class AddAppointmentWindowController implements Initializable {
 
     @FXML
     void onClickToMainWindow(ActionEvent event) throws IOException {
-        Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
+        if(Utils.confirmBack()) {
+            Utils.changeWindow(event, Utils.MAIN_WINDOW_LOCATION, "Main Window");
+        }
     }
 
     @Override

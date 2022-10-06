@@ -54,7 +54,7 @@ public class LogInWindowController implements Initializable {
         if(UserQuery.logIn(uname, password)){
             Logging.logLogIn(true, uname);
             CurrentUser = UserQuery.selectUser(uname);
-            Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
+            Utils.changeWindow(event, Utils.MAIN_WINDOW_LOCATION, "Main Window");
             ArrayList<String> appointmentsInFifteenMinutes = AppointmentQuery.appointmentsInFifteenMinutes();
             if(appointmentsInFifteenMinutes.size()>=1){
                 for(int i = 0; i < appointmentsInFifteenMinutes.size(); i++) {

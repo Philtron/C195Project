@@ -70,13 +70,15 @@ public class ModifyCustomerWindowController implements Initializable {
             User createUser = LogInWindowController.CurrentUser;
             CustomerQuery.modifyCustomer(customerID, customerName, address, zip, phone,
                     createUser.getUserName(), Timestamp.valueOf(LocalDateTime.now()), createUser.getUserName(), divisionID);
-            Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");
+            Utils.changeWindow(event, Utils.CUSTOMER_VIEW_WINDOW, "Customer View");
         }
     }
 
     @FXML
     void onClickToCustomerView(ActionEvent event) throws IOException {
-        Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");
+        if(Utils.confirmBack()) {
+            Utils.changeWindow(event, Utils.CUSTOMER_VIEW_WINDOW, "Customer View");
+        }
     }
 
     @Override

@@ -19,15 +19,26 @@ import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
     @FXML
+    private ToggleGroup filterToggle;
+    @FXML
+    private RadioButton noFilterRadio;
+    @FXML
+    private RadioButton weekRadioFilter;
+    @FXML
+    private RadioButton monthRadioFilter;
+
+    @FXML
     private Label toggleLabel;
     @FXML
-    private ToggleGroup FilterToggle;
-    @FXML
-    private ToggleButton weekFilterButton;
-    @FXML
-    private ToggleButton monthFilterButton;
-    @FXML
-    private ToggleButton noFilterButton;
+    private Label weekFilterLabel;
+//    @FXML
+//    private ToggleGroup FilterToggle;
+//    @FXML
+//    private ToggleButton weekFilterButton;
+//    @FXML
+//    private ToggleButton monthFilterButton;
+//    @FXML
+//    private ToggleButton noFilterButton;
     @FXML
     private TableView<Appointment> appointmentTable;
 
@@ -75,6 +86,9 @@ public class MainWindowController implements Initializable {
     private Button logOutButton;
 
     @FXML
+    private Button reportsButton;
+
+    @FXML
     void onClickExit(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Would you like to log out or exit completely?");
@@ -88,7 +102,7 @@ public class MainWindowController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.get() == logout){
-            Utils.changeWindow(event, "../View/LogInWindow.fxml", "Log In");
+            Utils.changeWindow(event, Utils.LOG_IN_WINDOW_LOCATION, "Log In");
             LogInWindowController.CurrentUser = null;
         } else if (result.get() == exit){
             System.exit(0);
@@ -100,7 +114,7 @@ public class MainWindowController implements Initializable {
 
     @FXML
     void onClickToCustomerView(ActionEvent event) throws IOException {
-        Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");
+        Utils.changeWindow(event, Utils.CUSTOMER_VIEW_WINDOW, "Customer View");
     }
     public void setTable(ObservableList<Appointment> appointments){
         appointmentTable.setItems(appointments);
@@ -110,7 +124,7 @@ public class MainWindowController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        toggleLabel.setText(LocalDateTime.now().toString());
+        toggleLabel.setText(LocalDateTime.now().withNano(0).toString());
         setTable(AppointmentQuery.selectAllToTableViewList());
         apptIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         custIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
@@ -123,6 +137,7 @@ public class MainWindowController implements Initializable {
         endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
         contNameCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
         userIDCol.setCellValueFactory(new PropertyValueFactory<>("UserID"));
+        weekFilterLabel.setVisible(false);
 
     }
 
@@ -146,33 +161,58 @@ public class MainWindowController implements Initializable {
     }
 
     public void onClickAddAppointment(ActionEvent event) throws IOException {
-        Utils.changeWindow(event, "../View/AddAppointmentWindow.fxml", "Add Appointment");
+        Utils.changeWindow(event, Utils.ADD_APPOINTMENT_WINDOW_LOCATION, "Add Appointment");
     }
 
     public void onClickEditAppointment(ActionEvent event) throws IOException {
         if(appointmentTable.getSelectionModel().getSelectedItem() != null) {
             ModifyAppointmentWindowController.appointment = appointmentTable.getSelectionModel().getSelectedItem();
-            Utils.changeWindow(event, "../View/ModifyAppointmentWindow.fxml", "Modify Appointment");
+            Utils.changeWindow(event, Utils.MODIFY_APPOINTMENT_WINDOW_LOCATION, "Modify Appointment");
         } else {
             Utils.displayAlert("Please select an appointment to modify");
         }
     }
 
 
-    public void onToggleNoFilter(ActionEvent event) {
-            toggleLabel.setText("All");
-//            appointmentTable.setItems(AppointmentQuery.selectAllToTableViewList());
-            setTable(AppointmentQuery.selectAllToTableViewList());
+//    public void onToggleNoFilter(ActionEvent event) {
+//            toggleLabel.setText("All");
+//            setTable(AppointmentQuery.selectAllToTableViewList());
+//    }
+//
+//
+//    public void onToggleFilterByWeek(ActionEvent event) {
+//            toggleLabel.setText("Week");
+//            setTable(AppointmentQuery.filterByWeek(LocalDateTime.now()));
+//    }
+//
+//    public void onToggleMonthFilter(ActionEvent event) {
+//            toggleLabel.setText("Month");
+//            setTable(AppointmentQuery.filterByMonth());
+//    }
+
+    public void onSelectFilterByWeek(ActionEvent event) {
+        LocalDateTime now = LocalDateTime.now();
+        weekFilterLabel.setVisible(true);
+        toggleLabel.setVisible(false);
+        weekFilterLabel.setText(now.withNano(0) + " to " + now.plusDays(6).withNano(0));
+        setTable(AppointmentQuery.filterByWeek(LocalDateTime.now()));
     }
 
-
-    public void onToggleFilterByWeek(ActionEvent event) {
-            toggleLabel.setText("Week");
-            setTable(AppointmentQuery.filterByWeek(LocalDateTime.now()));
+    public void onSelectNoFilter(ActionEvent event) {
+        weekFilterLabel.setVisible(false);
+        toggleLabel.setVisible(true);
+        toggleLabel.setText("All");
+        setTable(AppointmentQuery.selectAllToTableViewList());
     }
 
-    public void onToggleMonthFilter(ActionEvent event) {
-            toggleLabel.setText("Month");
-            setTable(AppointmentQuery.filterByMonth());
+    public void onSelectFilterByMonth(ActionEvent event) {
+        weekFilterLabel.setVisible(false);
+        toggleLabel.setVisible(true);
+        toggleLabel.setText(LocalDateTime.now().getMonth().toString());
+        setTable(AppointmentQuery.filterByMonth());
+    }
+    @FXML
+    void onClickToReports(ActionEvent event) throws IOException {
+        Utils.changeWindow(event, Utils.REPORTS_WINDOW_LOCATION, "Reports");
     }
 }

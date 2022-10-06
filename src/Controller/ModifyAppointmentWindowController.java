@@ -120,7 +120,7 @@ public class ModifyAppointmentWindowController implements Initializable {
                             Timestamp.valueOf(LocalDateTime.now()), LogInWindowController.CurrentUser.getUserName(), customerID,
                             userID, contactID, appointment.getAppointmentID());
 
-                    Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
+                    Utils.changeWindow(event, Utils.MAIN_WINDOW_LOCATION, "Main Window");
                 } else {
                     Utils.displayAlert("Please schedule the appointment during business hours (0800-2200 EST).");
                 }
@@ -130,7 +130,9 @@ public class ModifyAppointmentWindowController implements Initializable {
 
     @FXML
     void onClickToMainWindow(ActionEvent event) throws IOException {
-        Utils.changeWindow(event, "../View/MainWindow.fxml", "Main Window");
+        if(Utils.confirmBack()) {
+            Utils.changeWindow(event, Utils.MAIN_WINDOW_LOCATION, "Main Window");
+        }
     }
 
     @Override

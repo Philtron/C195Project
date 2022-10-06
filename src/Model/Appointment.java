@@ -111,4 +111,9 @@ public class Appointment {
     public void setContactName(String contactName) {
         this.contactName = contactName;
     }
+    public String toString(){
+        return("ID: " + this.getAppointmentID() + " Title: " + this.title + " Type: " + this.type +
+                " Description: " + this.description + " Start: " + this.start + " End: " + this.end +
+                " CustomerID: " + this.customerID);
+    }
 }

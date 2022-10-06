@@ -1,5 +1,7 @@
 package Model;
 
+import javafx.collections.ObservableList;
+
 public class User {
     private int userID;
     private String userName;
@@ -10,6 +12,8 @@ public class User {
         this.userName = userName;
 
     }
+
+
 
     public int getUserID() {
         return userID;

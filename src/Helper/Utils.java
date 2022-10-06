@@ -1,13 +1,12 @@
 package Helper;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,8 +15,18 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Utils {
+    public static final String LOG_IN_WINDOW_LOCATION = "../View/LogInWindow.fxml";
+    public static final String MAIN_WINDOW_LOCATION = "../View/MainWindow.fxml";
+    public static final String ADD_APPOINTMENT_WINDOW_LOCATION = "../View/AddAppointmentWindow.fxml";
+    public static final String MODIFY_APPOINTMENT_WINDOW_LOCATION = "../View/ModifyAppointmentWindow.fxml";
+    public static final String CUSTOMER_VIEW_WINDOW = "../View/CustomerViewWindow.fxml";
+    public static final String ADD_CUSTOMER_WINDOW_LOCATION = "../View/AddCustomerWindow.fxml";
+    public static final String MODIFY_CUSTOMER_WINDOW_LOCATION = "../View/ModifyCustomerWindow.fxml";
+    public static final String REPORTS_WINDOW_LOCATION = "../View/ReportsWindow.fxml";
+
     public static void changeWindow(ActionEvent event, String fileName, String title) throws IOException {
 
         Parent scene = FXMLLoader.load(Objects.requireNonNull(Utils.class.getResource(fileName)));
@@ -26,6 +35,15 @@ public class Utils {
         stage.setTitle(title);
         stage.show();
 
+    }
+    public static boolean confirmBack(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Nothing will be saved, are you sure you wish to leave?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+            return true;
+        }
+        return false;
     }
 
     public static void displayAlert(String message){

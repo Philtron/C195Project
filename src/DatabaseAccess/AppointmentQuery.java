@@ -3,8 +3,11 @@ package DatabaseAccess;
 import Controller.LogInWindowController;
 import Helper.Utils;
 import Model.Appointment;
+import Model.Contact;
+import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 
 import java.sql.*;
 import java.time.*;
@@ -276,30 +279,129 @@ public abstract class AppointmentQuery {
 
         return appointmentsByWeek;
     }
-//    public String getTotalAppointments() {
-//        PreparedStatement ps;
-//        ResultSet rs;
-//        String rawSQL = "select Type, month(Start) as month, count(*) as total from appointments " +
-//                "group by Type,month(Start) order by month;";
-//        StringBuilder report = new StringBuilder();
-//        report.append("Total Appointments of Each Type by Month\n");
-//        int iterMonth = 0;
-//
-//        try {
-//            Connection c = State.getDBConnection();
-//            ps = c.prepareStatement(rawSQL);
-//            rs = ps.executeQuery();
-//
-//            while (rs.next()) {
-//                if (rs.getInt("month") > iterMonth) {
-//                    report.append(String.format("\n%s\n\n", Month.of(rs.getInt("month"))));
-//                    iterMonth = rs.getInt("month");
-//                }
-//                report.append(String.format("%s: %d\n", rs.getString("Type"), rs.getInt("total")));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return report.toString();
-//    }
+    public static String appointmentsByTypeMonth() {
+
+
+        String sql = "SELECT Type, month(Start) AS month, count(*) AS count FROM appointments " +
+                "GROUP BY Type, month(Start) ORDER BY month;";
+        StringBuilder reportString = new StringBuilder("APPOINTMENTS BY TYPE PER MONTH\n");
+
+        try {
+            int monthCounter = 0;
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getInt("month") > monthCounter) {
+//                    reportString.append(String.format("%s\n", Month.of(rs.getInt("month"))));
+                    reportString.append("\n" + Month.of(rs.getInt("month"))+ "\n");
+                    monthCounter = rs.getInt("month");
+                }
+//                reportString.append(String.format("%s - Total: %d\n", rs.getString("Type"), rs.getInt("count")));
+                reportString.append(rs.getString("Type")+ " - Total: " + rs.getInt("count") + "\n");
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return reportString.toString();
+    }
+    public static String appointmentsByContacts() {
+        String sql = "SELECT a.Appointment_ID, cu.Customer_ID, cu.Customer_Name, a.Title, a.Location, a.Type, " +
+                "a.Description,  a.Start, a.End, a.User_ID, co.Contact_Name, co.Contact_ID FROM customers cu " +
+                "JOIN appointments a ON a.Customer_ID = cu.Customer_ID JOIN contacts co " +
+                "ON a.Contact_ID = co.Contact_ID ORDER BY Contact_ID";
+        StringBuilder reportString = new StringBuilder("APPOINTMENTS BY CONTACT\n");
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        ObservableList<Contact> contacts = ContactQuery.selectAllToList();
+
+        try {
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                int appointmentID = rs.getInt("Appointment_ID");
+                int custID = rs.getInt("Customer_ID");
+                String cusName = rs.getString("Customer_Name");
+                String title = rs.getString("Title");
+                String location = rs.getString("Location");
+                String type = rs.getString("Type");
+                String description = rs.getString("Description");
+                LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+                int userID = rs.getInt("User_ID");
+                String conName = rs.getString("Contact_Name");
+
+                appointments.add(new Appointment(appointmentID, custID, cusName, title, location, type,
+                        description, start, end, conName, userID));
+            }
+            for(int i = 0; i < contacts.size(); i++){
+                reportString.append(contacts.get(i).getContactName());
+                reportString.append("\n");
+                for(int j= 0; j < appointments.size();j++){
+                    if(appointments.get(j).getContactName().equals(contacts.get(i).getContactName())){
+                        reportString.append(appointments.get(j));
+                        reportString.append("\n");
+                    }
+                }
+                reportString.append("\n");
+            }
+
+
+        } catch (SQLException e){
+            System.out.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return reportString.toString();
+
+    }
+    public static String appointmentsByUser() {
+        String sql = "SELECT a.Appointment_ID, cu.Customer_ID, cu.Customer_Name, a.Title, a.Location, a.Type, " +
+                "a.Description,  a.Start, a.End, a.User_ID, co.Contact_Name, co.Contact_ID FROM customers cu " +
+                "JOIN appointments a ON a.Customer_ID = cu.Customer_ID JOIN contacts co " +
+                "ON a.Contact_ID = co.Contact_ID ORDER BY User_ID";
+        StringBuilder reportString = new StringBuilder("APPOINTMENTS BY USER\n");
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        ObservableList<User> users = UserQuery.selectAllToList();
+
+        try {
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                int appointmentID = rs.getInt("Appointment_ID");
+                int custID = rs.getInt("Customer_ID");
+                String cusName = rs.getString("Customer_Name");
+                String title = rs.getString("Title");
+                String location = rs.getString("Location");
+                String type = rs.getString("Type");
+                String description = rs.getString("Description");
+                LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+                int userID = rs.getInt("User_ID");
+                String conName = rs.getString("Contact_Name");
+
+                appointments.add(new Appointment(appointmentID, custID, cusName, title, location, type,
+                        description, start, end, conName, userID));
+            }
+            for(int i = 0; i < users.size(); i++){
+                reportString.append(users.get(i).getUserName());
+                reportString.append("\n");
+                for(int j= 0; j < appointments.size();j++){
+                    if(appointments.get(j).getUserID() == users.get(i).getUserID()){
+                        reportString.append(appointments.get(j));
+                        reportString.append("\n");
+                    }
+                }
+                reportString.append("\n");
+            }
+
+
+        } catch (SQLException e){
+            System.out.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return reportString.toString();
+
+    }
 }

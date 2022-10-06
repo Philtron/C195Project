@@ -75,7 +75,9 @@ public class AddCustomerWindowController implements Initializable {
 
     @FXML
     void onClickCustomerView(ActionEvent event) throws IOException {
-        Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");
+        if(Utils.confirmBack()) {
+            Utils.changeWindow(event, Utils.CUSTOMER_VIEW_WINDOW, "Customer View");
+        }
     }
 
     @FXML
@@ -95,7 +97,7 @@ public class AddCustomerWindowController implements Initializable {
             User createUser = LogInWindowController.CurrentUser;
             CustomerQuery.insertCustomer(customerName, address, zip, phone, Timestamp.valueOf(LocalDateTime.now()),
                     createUser.getUserName(), Timestamp.valueOf(LocalDateTime.now()), createUser.getUserName(), divisionID);
-            Utils.changeWindow(event, "../View/CustomerViewWindow.fxml", "Customer View");
+            Utils.changeWindow(event, Utils.CUSTOMER_VIEW_WINDOW, "Customer View");
         }
     }
 

@@ -123,7 +123,6 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         toggleLabel.setText(LocalDateTime.now().withNano(0).toString());
         setTable(AppointmentQuery.selectAllToTableViewList());
         apptIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));

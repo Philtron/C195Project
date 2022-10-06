@@ -68,6 +68,33 @@ public class CustomerQuery {
         }
         return null;
     }
+    public static Customer select(int customerID) {
+        String sql = "SELECT * FROM customers where Customer_ID= ?";
+        try {
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ps.setInt(1, customerID);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+//                int customerID = rs.getInt("Customer_ID");
+                String custName = rs.getString("Customer_Name");
+                String address = rs.getString("Address");
+                String zipCode = rs.getString("Postal_Code");
+                String phoneNum = rs.getString("Phone");
+                Timestamp createDate = rs.getTimestamp("Create_Date");
+                String createdBy = rs.getString("Created_By");
+                Timestamp lastUpdate = rs.getTimestamp("Last_Update");
+                String lastUpdatedBy = rs.getString("Last_Updated_By");
+                int divID = rs.getInt("Division_ID");
+                return new Customer(customerID, custName, address, zipCode, phoneNum,
+                        createDate, createdBy, lastUpdate, lastUpdatedBy, divID);
+            }
+
+        } catch (SQLException e){
+            System.out.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static void insertCustomer(String name, String address, String postalCode, String phone,
                                       Timestamp createDate, String createdBy, Timestamp lastUpdate,
                                       String lastUpdateBy, int divisionID){

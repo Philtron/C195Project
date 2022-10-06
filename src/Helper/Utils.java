@@ -1,5 +1,10 @@
 package Helper;
 
+import DatabaseAccess.AppointmentQuery;
+import DatabaseAccess.CustomerQuery;
+import Model.Appointment;
+import Model.Customer;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -63,36 +68,37 @@ public class Utils {
         }
     }
 
-    public static Boolean verifyBusinessHours(ZonedDateTime start, ZonedDateTime end) {
-//        System.out.println(ZonedDateTime.ofInstant(start.toInstant(), ZoneId.of("US/Eastern")));
-//        System.out.println("zdtStart: " + start + " zdtEnd: " + end);
+    public static boolean verifyBusinessHours(ZonedDateTime start, ZonedDateTime end) {
+
         ZonedDateTime businessOpen = ZonedDateTime.of(start.toLocalDate(), LocalTime.of(8,0), ZoneId.of("US/Eastern"));
         ZonedDateTime businessClose = ZonedDateTime.of(end.toLocalDate(), LocalTime.of(22, 0), ZoneId.of("US/Eastern"));
-//        System.out.println("busStart: " + businessOpen + " busEnd: " + businessClose);
 
-//
-//        ZonedDateTime zStart = ZonedDateTime.ofInstant(start.toInstant(), ZoneId.of("US/Eastern"));
-//        ZonedDateTime zEnd = ZonedDateTime.ofInstant(end.toInstant(), ZoneId.of("US/Eastern"));
-//        int startHour = zStart.getHour();
-//        int endHour = zEnd.getHour();
-//        int busStart = businessOpen.getHour();
-//        int busEnd = businessClose.getHour();
-//        System.out.println("Start Hour: " + startHour);
-//        System.out.println("Business Open: " + businessOpen.getHour());
-//        System.out.println("End Hour: " + endHour);
-//        System.out.println("Business Close: " + businessClose.getHour());
-//        if((startHour < busStart) || (startHour > busEnd) || (endHour < busStart) || (endHour > busEnd)) {
         if((start.isBefore(businessOpen)) || (start.isAfter(businessClose)) || (end.isBefore(businessOpen)) || (end.isAfter(businessClose))){
             return false;
-//        } else if (((startHour == busEnd) || (endHour == busEnd))) {
-//            if ((zStart.getMinute() != 0) || (zEnd.getMinute() != 0)){
-//                System.out.println("Failed at Minutes!");
-//                return false;
-//            }
+
         } else {
             return true;
         }
-//        return true;
+    }
+
+    public static boolean checkCustomerOverlap(ZonedDateTime startOne, ZonedDateTime endOne, int customerID){
+        Customer customer = CustomerQuery.select(customerID);
+        ObservableList<Appointment> appointments = AppointmentQuery.filterByCustomerID(customerID);
+        System.out.println("check customer: " + appointments);
+        for(int i=0; i < appointments.size();i++){
+            ZonedDateTime startTwo = ZonedDateTime.of(appointments.get(i).getStart(),ZoneId.systemDefault());
+            ZonedDateTime endTwo = ZonedDateTime.of(appointments.get(i).getEnd(), ZoneId.systemDefault());
+//            System.out.println("S1: " + startOne + " S2: " +startTwo);
+//            System.out.println("E1: " + endOne + " E2: " + endTwo);
+            if((startOne.isBefore(startTwo) && endOne.isAfter(startTwo)) ||
+                    (startOne.isAfter(startTwo) && startOne.isBefore(endTwo)) ||
+                    (endOne.isAfter(startTwo) && endOne.isBefore(endTwo)) ||
+                    (startOne.isEqual(startTwo))) {
+                return false;
+            }
+
+        }
+        return true;
     }
 
     public static int getLocalBusinessStartHour(){

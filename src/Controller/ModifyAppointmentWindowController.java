@@ -12,10 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +21,17 @@ import java.time.*;
 import java.util.ResourceBundle;
 
 public class ModifyAppointmentWindowController implements Initializable {
+    @FXML
+    private Label easternEndLabel;
+    @FXML
+    private Label easternStartLabel;
+    @FXML
+    private Label localEndLabel;
+    @FXML
+    private Label localStartLabel;
+    @FXML
+    private Button convertTimeButton;
+
     public static Appointment appointment;
     @FXML
     private Button backButton;
@@ -54,6 +62,8 @@ public class ModifyAppointmentWindowController implements Initializable {
 
     @FXML
     private DatePicker startDatePicker;
+    @FXML
+    private DatePicker endDatePicker;
 
     @FXML
     private ComboBox<Integer> startHourComboBox;
@@ -163,6 +173,7 @@ public class ModifyAppointmentWindowController implements Initializable {
         custComboBox.getSelectionModel().select(selCustomer);
         contactComboBox.getSelectionModel().select(selContact);
         startDatePicker.setValue(appointment.getStart().toLocalDate());
+        endDatePicker.setValue(appointment.getEnd().toLocalDate());
         String startTime = appointment.getStart().toLocalTime().toString();
         String[] splitStartTime = startTime.split(":");
         startHourComboBox.setValue(Integer.valueOf(splitStartTime[0]));
@@ -186,5 +197,36 @@ public class ModifyAppointmentWindowController implements Initializable {
         endHourComboBox.setItems(hours);
         startMinuteComboBox.setItems(minutes);
         endMinuteComboBox.setItems(minutes);
+    }
+    public void onClickConvertTime(ActionEvent event) {
+        if((startDatePicker.getValue() == null) || (startHourComboBox.getValue()== null) ||
+                (startMinuteComboBox.getValue() == null) || (endHourComboBox.getValue() == null) ||
+                (endMinuteComboBox.getValue()== null) || (endDatePicker.getValue() == null)) {
+            Utils.displayAlert("Please fill in the time controls before clicking Convert Time.");
+        } else {
+
+            LocalDate startDate = startDatePicker.getValue();
+            LocalDate endDate = endDatePicker.getValue();
+
+            int startHour = startHourComboBox.getValue();
+            int startMinute = startMinuteComboBox.getValue();
+            int endHour = endHourComboBox.getValue();
+            int endMinute = endMinuteComboBox.getValue();
+
+            LocalDateTime ldtStart = LocalDateTime.of(startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth(), startHour, startMinute);
+            LocalDateTime ldtEnd = LocalDateTime.of(endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth(), endHour, endMinute);
+
+
+            ZonedDateTime zdtStart = ZonedDateTime.of(ldtStart, ZoneId.systemDefault());
+            ZonedDateTime zdtEnd = ZonedDateTime.of(ldtEnd, ZoneId.systemDefault());
+
+            localStartLabel.setText(zdtStart.toString());
+            localEndLabel.setText(zdtEnd.toString());
+            ZoneId eastID = ZoneId.of("US/Eastern");
+            ZonedDateTime eastStart = ZonedDateTime.ofInstant(zdtStart.toInstant(), eastID);
+            ZonedDateTime eastEnd = ZonedDateTime.ofInstant(zdtEnd.toInstant(), eastID);
+            easternStartLabel.setText(eastStart.withNano(0).toString());
+            easternEndLabel.setText(eastEnd.withNano(0).toString());
+        }
     }
 }

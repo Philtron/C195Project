@@ -8,7 +8,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainWindowController">
    <children>
       <TableView fx:id="appointmentTable" layoutX="13.0" layoutY="14.0" prefHeight="400.0" prefWidth="1275.0">
         <columns>
@@ -25,20 +25,20 @@
             <TableColumn fx:id="userIDCol" minWidth="0.0" prefWidth="86.0" text="User_ID" />
         </columns>
       </TableView>
-      <Button fx:id="newAppointmentButton" layoutX="13.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickAddAppointment" text="New Appointment" />
-      <Button fx:id="editAppointmentButton" layoutX="135.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickEditAppointment" text="Edit Appointment" />
-      <Button fx:id="deleteAppointment" layoutX="252.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickDeleteAppointment" text="Delete Appointment" />
-      <Button fx:id="CustomerViewButton" layoutX="1037.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickToCustomerView" prefHeight="30.0" prefWidth="121.0" text="Customer List" />
-      <Button fx:id="exitButton" layoutX="1167.0" layoutY="452.0" mnemonicParsing="false" onAction="#onClickExit" prefHeight="30.0" prefWidth="121.0" text="Exit" />
-      <Label fx:id="toggleLabel" layoutX="617.0" layoutY="444.0" text="Label" textAlignment="CENTER" />
-      <RadioButton fx:id="weekRadioFilter" layoutX="508.0" layoutY="419.0" mnemonicParsing="false" onAction="#onSelectFilterByWeek" text="Week Filter">
+      <Button fx:id="newAppointmentButton" layoutX="15.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickAddAppointment" prefHeight="20.0" prefWidth="120.0" text="New Appointment" />
+      <Button fx:id="editAppointmentButton" layoutX="145.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickEditAppointment" prefHeight="20.0" prefWidth="120.0" text="Edit Appointment" />
+      <Button fx:id="deleteAppointment" layoutX="275.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickDeleteAppointment" prefHeight="20.0" prefWidth="120.0" text="Delete Appointment" />
+      <Button fx:id="CustomerViewButton" layoutX="905.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickToCustomerView" prefHeight="20.0" prefWidth="120.0" text="Customer List" />
+      <Button fx:id="exitButton" layoutX="1165.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickExit" prefHeight="20.0" prefWidth="120.0" text="Exit" />
+      <Label fx:id="toggleLabel" layoutX="650.0" layoutY="444.0" text="Label" textAlignment="CENTER" />
+      <RadioButton fx:id="weekRadioFilter" layoutX="550.0" layoutY="419.0" mnemonicParsing="false" onAction="#onSelectFilterByWeek" text="Week Filter">
          <toggleGroup>
             <ToggleGroup fx:id="filterToggle" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="noFilterRadio" layoutX="597.0" layoutY="419.0" mnemonicParsing="false" onAction="#onSelectNoFilter" text="No Filter" toggleGroup="$filterToggle" />
-      <RadioButton fx:id="monthRadioFilter" layoutX="670.0" layoutY="419.0" mnemonicParsing="false" onAction="#onSelectFilterByMonth" text="Month Filter" toggleGroup="$filterToggle" />
-      <Button fx:id="reportsButton" layoutX="1167.0" layoutY="419.0" mnemonicParsing="false" onAction="#onClickToReports" prefHeight="30.0" prefWidth="121.0" text="Reports" />
-      <Label fx:id="weekFilterLabel" layoutX="508.0" layoutY="444.0" text="Label" />
+      <RadioButton fx:id="noFilterRadio" layoutX="650.0" layoutY="419.0" mnemonicParsing="false" onAction="#onSelectNoFilter" text="No Filter" toggleGroup="$filterToggle" />
+      <RadioButton fx:id="monthRadioFilter" layoutX="750.0" layoutY="419.0" mnemonicParsing="false" onAction="#onSelectFilterByMonth" text="Month Filter" toggleGroup="$filterToggle" />
+      <Button fx:id="reportsButton" layoutX="1035.0" layoutY="420.0" mnemonicParsing="false" onAction="#onClickToReports" prefHeight="20.0" prefWidth="120.0" text="Reports" />
+      <Label fx:id="weekFilterLabel" layoutX="530.0" layoutY="444.0" text="Label" />
    </children>
 </AnchorPane>

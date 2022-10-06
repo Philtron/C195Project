@@ -176,7 +176,7 @@ public abstract class AppointmentQuery {
         ObservableList<Appointment> filteredList = FXCollections.observableArrayList();
         String sql = "SELECT a.Appointment_ID, cu.Customer_ID, cu.Customer_Name, a.Title, a.Location, a.Type, " +
                 "a.Description,  a.Start, a.End, a.User_ID, co.Contact_Name FROM customers cu JOIN appointments a ON " +
-                "a.Customer_ID = cu.Customer_ID JOIN contacts co ON a.Contact_ID = co.Contact_ID WHERE Customer_ID=?";
+                "a.Customer_ID = cu.Customer_ID JOIN contacts co ON a.Contact_ID = co.Contact_ID WHERE a.Customer_ID=?";
         try {
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
             ps.setInt(1, customerID);
@@ -190,9 +190,7 @@ public abstract class AppointmentQuery {
                 String type = rs.getString("Type");
                 String description = rs.getString("Description");
                 LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
-//                LocalDateTime start = ZonedDateTime.of(time, ZoneId.systemDefault());
                 LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
-//                LocalDateTime end = ZonedDateTime.of(time, ZoneId.systemDefault());
                 int userID = rs.getInt("User_ID");
                 String conName = rs.getString("Contact_Name");
 
@@ -404,4 +402,6 @@ public abstract class AppointmentQuery {
         return reportString.toString();
 
     }
+
+
 }

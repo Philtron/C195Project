@@ -12,6 +12,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("View/LogInWindow.fxml"));
         primaryStage.setTitle("C195 Philip Sauer");
         primaryStage.setScene(new Scene(root, 480, 250));
+        primaryStage.setX(300);
         primaryStage.show();
     }
 

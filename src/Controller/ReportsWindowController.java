@@ -4,11 +4,7 @@ import DatabaseAccess.AppointmentQuery;
 import Helper.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 
@@ -37,7 +33,7 @@ public class ReportsWindowController {
 
     @FXML
     void onClickToMainWindow(ActionEvent event) throws IOException {
-        Utils.changeWindow(event, Utils.MAIN_WINDOW_LOCATION, "Main_Window");
+        Utils.changeWindow(event, Utils.MAIN_WINDOW_LOCATION, "Main-Window");
     }
 
     @FXML
@@ -57,7 +53,5 @@ public class ReportsWindowController {
     void onToggleFilterByUser(ActionEvent event) {
         String reportString = AppointmentQuery.appointmentsByUser();
         reportTextArea.setText(reportString);
-
     }
-
 }

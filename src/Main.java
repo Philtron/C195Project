@@ -5,8 +5,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+
+/** This is the main class for the C195 Scheduling Program Assessment. This program uses a graphical interface
+ * for a scheduling program that works with a MYSQL database.
+ * */
 public class Main extends Application {
 
+    /** Standard javafx scene setting method. Places the log in window slightly to the left of the screen
+     * so that when switching to the main window, nothing is placed outside the  screen. */
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("View/LogInWindow.fxml"));
@@ -16,7 +23,9 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
+    /** Main method connects to the Database and then launches the GUI
+     *
+     * @param args String array variable to store command line arguments. */
     public static void main(String[] args) {
         JDBC.openConnection();
 //        Locale.setDefault(new Locale("fr"));

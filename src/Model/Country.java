@@ -6,12 +6,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Country {
-    private int CountryID;
-    private String country;
-    private LocalDate createDate;
-    private String createdBy;
-    private Timestamp lastUpdate;
-    private String updatedBy;
+    private final int CountryID;
+    private final String country;
+    private final LocalDate createDate;
+    private final String createdBy;
+    private final Timestamp lastUpdate;
+    private final String updatedBy;
 
     public Country(int countryID, String country, LocalDate createDate, String createdBy, Timestamp lastUpdate, String updatedBy) {
         this.CountryID = countryID;

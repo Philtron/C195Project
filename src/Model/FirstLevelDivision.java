@@ -4,13 +4,13 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class FirstLevelDivision {
-    private int divisionID;
-    private String division;
-    private Date createDate;
-    private String createdBy;
-    private Timestamp lastUpdate;
-    private String lastUpdatedBy;
-    private int countryID;
+    private final int divisionID;
+    private final String division;
+    private final Date createDate;
+    private final String createdBy;
+    private final Timestamp lastUpdate;
+    private final String lastUpdatedBy;
+    private final int countryID;
 
     public FirstLevelDivision(int divisionID, String division, Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int countryID) {
         this.divisionID = divisionID;

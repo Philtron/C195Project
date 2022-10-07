@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="180.0" prefWidth="612.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddCustomerWindowController">
+<AnchorPane prefHeight="180.0" prefWidth="612.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddCustomerWindowController">
    <children>
       <Label fx:id="custIDLabel" layoutX="321.0" layoutY="14.0" text="Customer ID:" />
       <Label fx:id="custNameLabel" layoutX="16.0" layoutY="14.0" text="Customer Name:" />

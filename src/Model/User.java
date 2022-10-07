@@ -3,8 +3,8 @@ package Model;
 import javafx.collections.ObservableList;
 
 public class User {
-    private int userID;
-    private String userName;
+    private final int userID;
+    private final String userName;
 
 
     public User(int userID, String userName) {

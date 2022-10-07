@@ -45,10 +45,7 @@ public class Utils {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Nothing will be saved, are you sure you wish to leave?");
         Optional<ButtonType> result = alert.showAndWait();
 
-        if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-            return true;
-        }
-        return false;
+        return (result.isPresent()) && (result.get() == ButtonType.OK);
     }
 
     public static void displayAlert(String message){
@@ -73,30 +70,40 @@ public class Utils {
         ZonedDateTime businessOpen = ZonedDateTime.of(start.toLocalDate(), LocalTime.of(8,0), ZoneId.of("US/Eastern"));
         ZonedDateTime businessClose = ZonedDateTime.of(end.toLocalDate(), LocalTime.of(22, 0), ZoneId.of("US/Eastern"));
 
-        if((start.isBefore(businessOpen)) || (start.isAfter(businessClose)) || (end.isBefore(businessOpen)) || (end.isAfter(businessClose))){
-            return false;
-
-        } else {
-            return true;
-        }
+        return (!start.isBefore(businessOpen)) && (!start.isAfter(businessClose)) && (!end.isBefore(businessOpen)) && (!end.isAfter(businessClose));
     }
 
     public static boolean checkCustomerOverlap(ZonedDateTime startOne, ZonedDateTime endOne, int customerID){
         Customer customer = CustomerQuery.select(customerID);
         ObservableList<Appointment> appointments = AppointmentQuery.filterByCustomerID(customerID);
-//        System.out.println("check customer: " + appointments);
         for(int i=0; i < appointments.size();i++){
             ZonedDateTime startTwo = ZonedDateTime.of(appointments.get(i).getStart(),ZoneId.systemDefault());
             ZonedDateTime endTwo = ZonedDateTime.of(appointments.get(i).getEnd(), ZoneId.systemDefault());
-//            System.out.println("S1: " + startOne + " S2: " +startTwo);
-//            System.out.println("E1: " + endOne + " E2: " + endTwo);
+
             if((startOne.isBefore(startTwo) && endOne.isAfter(startTwo)) ||
                     (startOne.isAfter(startTwo) && startOne.isBefore(endTwo)) ||
                     (endOne.isAfter(startTwo) && endOne.isBefore(endTwo)) ||
                     (startOne.isEqual(startTwo))) {
                 return false;
             }
+        }
+        return true;
+    }
+    public static boolean checkCustomerOverlap(ZonedDateTime startOne, ZonedDateTime endOne, int customerID, int appointmentID){
+        Customer customer = CustomerQuery.select(customerID);
+        ObservableList<Appointment> appointments = AppointmentQuery.filterByCustomerID(customerID);
+        for(int i=0; i < appointments.size();i++){
+            ZonedDateTime startTwo = ZonedDateTime.of(appointments.get(i).getStart(),ZoneId.systemDefault());
+            ZonedDateTime endTwo = ZonedDateTime.of(appointments.get(i).getEnd(), ZoneId.systemDefault());
 
+            if((startOne.isBefore(startTwo) && endOne.isAfter(startTwo)) ||
+                    (startOne.isAfter(startTwo) && startOne.isBefore(endTwo)) ||
+                    (endOne.isAfter(startTwo) && endOne.isBefore(endTwo)) ||
+                    (startOne.isEqual(startTwo))) {
+                if(appointments.get(i).getAppointmentID() != appointmentID){
+                    return false;
+                }
+            }
         }
         return true;
     }

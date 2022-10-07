@@ -152,9 +152,9 @@ public abstract class AppointmentQuery {
                 Timestamp start = rs.getTimestamp("Start");
                 String custName = rs.getString("Customer_Name");
 
-                System.out.println("Appending: " + String.valueOf(apptID) + " " + start );
+                System.out.println("Appending: " + apptID + " " + start );
                 apptString.append("Appointment ID: ");
-                apptString.append(String.valueOf(apptID));
+                apptString.append(apptID);
                 apptString.append("\nStart: ");
                 apptString.append(start);
                 apptString.append("\nCustomer: ");

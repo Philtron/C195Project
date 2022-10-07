@@ -23,56 +23,48 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/** This class controls the add customer window. It facilitates inserting new customers into the database. */
 public class AddCustomerWindowController implements Initializable {
 
-    @FXML
-    private Label addressLabel;
-
+    /** Textfield to capture the address entered by the user. */
     @FXML
     private TextField addressTextField;
 
+    /** Button to discard changes and return to the main window. */
     @FXML
     private Button backButton;
 
+    /** Combobox to hold the list of countries pulled from the database. */
     @FXML
     private ComboBox<Country> countryComboBox;
 
-    @FXML
-    private Label countryLabel;
-
-    @FXML
-    private Label custIDLabel;
-
+    /** Textfield illustrates that the customer ID is auto generate. */
     @FXML
     private TextField custIDTextField;
 
-    @FXML
-    private Label custNameLabel;
-
+    /** Textfield to capture the entered customer name.  */
     @FXML
     private TextField custNameTextField;
 
+    /** Combobox to display the first level divisions of the country selected in the country combobox. */
     @FXML
     private ComboBox<FirstLevelDivision> divisionComboBox;
 
-    @FXML
-    private Label divisionLabel;
-
-    @FXML
-    private Label phoneNumberLabel;
-
+    /** Textfield to capture the entered phone number. */
     @FXML
     private TextField phoneNumberTextField;
 
-    @FXML
-    private Label postalCodeLabel;
-
+    /** Textfield to capture the entered postal code. */
     @FXML
     private TextField postalCodeTextField;
 
+    /** Button that initiates inserting the new customer into the database. */
     @FXML
     private Button saveButton;
 
+    /** Back button. Returns to the customer view window.
+     * @param event mouse click to initiate the method.
+     * @throws IOException if customer view window isn't found. */
     @FXML
     void onClickCustomerView(ActionEvent event) throws IOException {
         if(Utils.confirmBack()) {
@@ -80,11 +72,18 @@ public class AddCustomerWindowController implements Initializable {
         }
     }
 
+    /** Verifies all controls are filled then inserts the new customer into the database.
+     *@param event mouse click to initiate the method.
+     *@throws IOException if customer view window isn't found. */
     @FXML
     void onClickSaveCustomer(ActionEvent event) throws IOException {
-        if((custNameTextField.getText() == "")||(addressTextField.getText() == "")||(postalCodeTextField.getText()== "")
-                ||(phoneNumberTextField.getText() =="")){
+
+        // If all textfields are filled.
+        if((custNameTextField.getText().isBlank())||(addressTextField.getText().isBlank()) ||(postalCodeTextField.getText().isBlank())
+                ||(phoneNumberTextField.getText().isBlank())){
             Utils.displayAlert("Please ensure there is a value in each text field");
+
+        // If all comboboxes are filled.
         } else if ((countryComboBox.getValue()==null)||(divisionComboBox.getValue()==null)) {
             Utils.displayAlert("Please enter a country and division in the comboboxes.");
         } else {
@@ -101,10 +100,17 @@ public class AddCustomerWindowController implements Initializable {
         }
     }
 
+    /** First method run when window is opened. Disables the customer ID text field.
+     * Uses a lambda expression to fill the first level division comboboxes of the country selected in the country
+     * combobox.
+     * @param url The location used to resolve relative paths for the root object, or null if the location
+     * is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root
+     * object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        CountryQuery.selectAllToList(allCountries);
-//        custIDTextField.setText(String.valueOf(CustomerQuery.getNextID()));
+
         custIDTextField.setDisable(true);
 
         countryComboBox.setItems(CountryQuery.selectAllToList());
@@ -122,10 +128,7 @@ public class AddCustomerWindowController implements Initializable {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-
             }
         });
-
-
     }
 }

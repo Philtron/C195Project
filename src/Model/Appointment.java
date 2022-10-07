@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 public class Appointment {
-    private int appointmentID;
+    private final int appointmentID;
     private int customerID;
     private String customerName;
     private String title;
@@ -14,7 +14,7 @@ public class Appointment {
     private LocalDateTime start;
     private LocalDateTime end;
     private String contactName;
-    private int userID;
+    private final int userID;
 
     public int getUserID() {
         return userID;

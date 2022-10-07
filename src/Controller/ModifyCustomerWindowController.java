@@ -23,49 +23,67 @@ import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class ModifyCustomerWindowController implements Initializable {
+    /** Customer to be modified. It is set when the customer is selected in the customer view window. */
     public static Customer customer;
 
+    /** Textfield to capture address. */
     @FXML
     private TextField addressTextField;
 
+    /** Cancel button, returns to the customer view window. */
     @FXML
     private Button backButton;
 
+    /** Combobox holding list of countries pulled from the database. */
     @FXML
     private ComboBox<Country> countryComboBox;
 
+    /** Textfield to display the customer ID, cannot be edited. */
     @FXML
     private TextField custIDTextField;
 
+    /** Textfield to capture the customer's name. */
     @FXML
     private TextField custNameTextField;
 
+    /** Combobox that holds first level divisions of whichever country is selected in the country combobox. */
     @FXML
     private ComboBox<FirstLevelDivision> divisionComboBox;
 
+    /** Captures the entered phone number. */
     @FXML
     private TextField phoneTextField;
 
+    /** Text field to capture the entered postal code. */
     @FXML
     private TextField postalCodeTextField;
 
+    /** Button to call the function that modifies the customer in the database. */
     @FXML
     private Button saveButton;
 
+    /** Checks to make sure all controls have data entered then modifies the customer in the database.
+     *
+     * @param event mouseclick that activates the button.
+     * @throws IOException if the customer view fxml file isn't found.
+     */
     @FXML
     void onClickModifyCustomer(ActionEvent event) throws IOException {
-        if((custNameTextField.getText() == "")||(addressTextField.getText() == "")||(postalCodeTextField.getText()== "")
-                ||(phoneTextField.getText() =="")){
+
+        // If all TextFields aren't filled.
+        if((custNameTextField.getText().isBlank())||(addressTextField.getText().isBlank())||(postalCodeTextField.getText().isBlank())
+                ||(phoneTextField.getText().isBlank())){
             Utils.displayAlert("Please ensure there is a value in each text field");
+
+        // If all comboboxes aren't filled.
         } else if ((countryComboBox.getValue()==null)||(divisionComboBox.getValue()==null)) {
             Utils.displayAlert("Please enter a country and division in the comboboxes.");
         } else {
-            int customerID = Integer.valueOf(custIDTextField.getText());
+            int customerID = Integer.parseInt(custIDTextField.getText());
             String customerName = custNameTextField.getText();
             String address = addressTextField.getText();
             String zip = postalCodeTextField.getText();
             String phone = phoneTextField.getText();
-//        String country = countryComboBox.getValue().getCountry();
             int divisionID = divisionComboBox.getValue().getDivisionID();
             User createUser = LogInWindowController.CurrentUser;
             CustomerQuery.modifyCustomer(customerID, customerName, address, zip, phone,
@@ -74,6 +92,11 @@ public class ModifyCustomerWindowController implements Initializable {
         }
     }
 
+    /** Change window to customer view window
+     *
+     * @param event mouseclick that activates button.
+     * @throws IOException if customer view fxml file isn't found.
+     */
     @FXML
     void onClickToCustomerView(ActionEvent event) throws IOException {
         if(Utils.confirmBack()) {
@@ -81,6 +104,15 @@ public class ModifyCustomerWindowController implements Initializable {
         }
     }
 
+    /** First method called when window is created. Fills the controls with the data corresponding to the customer
+     * selected to be modified in the previous window. Uses a lambda expression to add a listener to the country
+     * combobox that fills the division combobox with that country's divisions.
+     *
+     * @param url The location used to resolve relative paths for the root object, or null if the location
+     * is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root
+     * object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         addressTextField.setText(customer.getAddress());
@@ -112,7 +144,5 @@ public class ModifyCustomerWindowController implements Initializable {
         });
         countryComboBox.getSelectionModel().select(country);
         divisionComboBox.getSelectionModel().select(division);
-
-
     }
 }

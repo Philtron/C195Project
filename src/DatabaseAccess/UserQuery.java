@@ -23,11 +23,7 @@ public class UserQuery {
                     "Password =\"" + password + "\"");
 
             ResultSet rs = query.executeQuery();
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return rs.next();
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();

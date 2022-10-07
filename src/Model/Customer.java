@@ -7,16 +7,16 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class Customer {
-    private int customerID;
-    private String name;
-    private String address;
-    private String postalCode;
-    private String phoneNumber;
-    private Timestamp createDate;
-    private String createdBy;
-    private Timestamp lastUpdate;
-    private String lastUpdatedBy;
-    private int divisionID;
+    private final int customerID;
+    private final String name;
+    private final String address;
+    private final String postalCode;
+    private final String phoneNumber;
+    private final Timestamp createDate;
+    private final String createdBy;
+    private final Timestamp lastUpdate;
+    private final String lastUpdatedBy;
+    private final int divisionID;
 
     public Customer(int customerID, String name, String address, String postalCode, String phoneNumber, Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionID) {
         this.customerID = customerID;

@@ -6,7 +6,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="1010.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ReportsWindowController">
+<AnchorPane prefHeight="400.0" prefWidth="1010.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ReportsWindowController">
    <children>
       <TextArea fx:id="reportTextArea" layoutX="238.0" prefHeight="400.0" prefWidth="772.0" />
       <ToggleButton fx:id="typeMonthToggle" layoutX="25.0" layoutY="40.0" mnemonicParsing="false" onAction="#onToggleFilterByMonthType" prefHeight="30.0" prefWidth="190.0" text="Appointment by Type/Month">

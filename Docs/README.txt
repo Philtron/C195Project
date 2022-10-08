@@ -29,6 +29,8 @@ where PATH_TO_FX is the location of your javafx lib folder.
 You should now be able to run the program by right clicking and choosing run Main.main() or by clicking the green run 
 triangle at the top of the IDE. 
 
+JAVADOCS folder is located in the C195Project/Docs folder. 
+
 Additional Report: 
-The additional report functionality is the ability to check appointments by the user who scheduled them. 
+The additional report functionality is the ability to check appointments filtered by the user who scheduled them. 
 

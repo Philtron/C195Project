@@ -20,9 +20,8 @@ public abstract class CountryQuery {
         try {
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
             ps.setInt(1, divisionID);
-            System.out.println(ps);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 int countryID = rs.getInt(1);
                 String country = rs.getString(2);
                 Date createDate = rs.getDate(3);

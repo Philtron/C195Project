@@ -36,7 +36,6 @@ public class CustomerQuery {
             ps.setString(5, lastUpdateBy);
             ps.setInt(6, divisionID);
             ps.setInt(7, customerID);
-            System.out.println(ps);
 
             int rowsAffected = ps.executeUpdate();
 
@@ -58,7 +57,7 @@ public class CustomerQuery {
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
             ps.setString(1, customerName);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 int customerID = rs.getInt("Customer_ID");
                 String custName = rs.getString("Customer_Name");
                 String address = rs.getString("Address");
@@ -91,7 +90,7 @@ public class CustomerQuery {
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
             ps.setInt(1, customerID);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 String custName = rs.getString("Customer_Name");
                 String address = rs.getString("Address");
                 String zipCode = rs.getString("Postal_Code");
@@ -139,12 +138,11 @@ public class CustomerQuery {
             ps.setTimestamp(7, lastUpdate);
             ps.setString(8, lastUpdateBy);
             ps.setInt(9, divisionID);
-            System.out.println(ps);
             ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
             rs.next();
             int customerID = rs.getInt(1);
-            System.out.println("Customer inserted with Customer ID: " + customerID);
+            Utils.displayAlert("Customer inserted with Customer ID: " + customerID);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -189,7 +187,7 @@ public class CustomerQuery {
      * deleting the customer.
      *
      * @param custID int ID primary key of customer to be deleted.
-     * @return returns true if user confirms, false otherwise. 
+     * @return returns true if user confirms, false otherwise.
      */
     public static boolean deleteConfirm(int custID) {
         String alertMessage;

@@ -128,6 +128,10 @@ public class Appointment {
         return contactName;
     }
 
+    /** Overloaded to format for the report functionality
+     *
+     * @return String formatted to contain required information.
+     */
     public String toString(){
         return("ID: " + this.getAppointmentID() + " Title: " + this.title + " Type: " + this.type +
                 " Description: " + this.description + " Start: " + this.start + " End: " + this.end +

@@ -163,7 +163,6 @@ public abstract class AppointmentQuery {
             ps.setString(11, type);
             ps.setInt(12, appointmentID);
 
-            System.out.println(sql);
             int rowsAffected = ps.executeUpdate();
             Utils.updatePassFail(rowsAffected);
 
@@ -202,7 +201,6 @@ public abstract class AppointmentQuery {
                 Timestamp start = rs.getTimestamp("Start");
                 String custName = rs.getString("Customer_Name");
 
-                System.out.println("Appending: " + apptID + " " + start);
                 apptString.append("Appointment ID: ");
                 apptString.append(apptID);
                 apptString.append("\nStart: ");
@@ -210,7 +208,6 @@ public abstract class AppointmentQuery {
                 apptString.append("\nCustomer: ");
                 apptString.append(custName);
                 appointmentsInFifteen.add(apptString.toString());
-                System.out.println("Added! " + appointmentsInFifteen.size());
                 apptString.setLength(0);
 
             }
@@ -369,11 +366,12 @@ public abstract class AppointmentQuery {
             while (rs.next()) {
                 if (rs.getInt("month") > monthCounter) {
 //                    reportString.append(String.format("%s\n", Month.of(rs.getInt("month"))));
-                    reportString.append("\n" + Month.of(rs.getInt("month")) + "\n");
+                    reportString.append("\n").append(Month.of(rs.getInt("month"))).append("\n");
                     monthCounter = rs.getInt("month");
                 }
 //                reportString.append(String.format("%s - Total: %d\n", rs.getString("Type"), rs.getInt("count")));
-                reportString.append(rs.getString("Type") + " - Total: " + rs.getInt("count") + "\n");
+                reportString.append(rs.getString("Type")).append(" - Total: ")
+                        .append(rs.getInt("count")).append("\n");
             }
         } catch (SQLException e) {
             System.out.println("ERROR: " + e.getMessage());

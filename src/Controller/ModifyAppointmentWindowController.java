@@ -214,7 +214,7 @@ public class ModifyAppointmentWindowController implements Initializable {
     /** Converts the times that were entered in the corresponding time controls, and displays them in the labels at
      * the bottom of the page. Displays the local time of the user on the left side and the Eastern Standard time
      * equivalent on the right side.
-     * @param event
+     * @param event mouseclick which activates the button.
      */
     public void onClickConvertTime(ActionEvent event) {
         // If all the time controls were filled in.
@@ -265,7 +265,7 @@ public class ModifyAppointmentWindowController implements Initializable {
         setTimeCombos();
 
         appointmentIDTextField.setText(String.valueOf(appointment.getAppointmentID()));
-        appointmentIDTextField.setDisable(true);
+
 
         custComboBox.setItems(CustomerQuery.selectAllToList());
         contactComboBox.setItems(ContactQuery.selectAllToList());

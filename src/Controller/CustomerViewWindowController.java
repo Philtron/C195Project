@@ -14,19 +14,9 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/** This class controls the customer view window. It displays a list of all customers in the database and allows
+ * customer deletion and access to the add customer and modify customer windows. */
 public class CustomerViewWindowController implements Initializable {
-
-//    @FXML
-//    private Button addCustomerButton;
-//    @FXML
-//    private Button deleteCustomer;
-//    @FXML
-//    private Button backButton;
-//    @FXML
-//    private Button exitButton;
-//    @FXML
-//    private Button modifyCustomerButton;
-
 
     /** Customer tableview. Contains and displays all customers in the database.  */
     @FXML

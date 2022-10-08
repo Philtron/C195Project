@@ -22,7 +22,7 @@
       <DatePicker fx:id="startDatePicker" layoutX="490.0" layoutY="19.0" />
       <TextField fx:id="locTextField" layoutX="140.0" layoutY="219.0" />
       <ComboBox fx:id="custComboBox" layoutX="140.0" layoutY="19.0" prefWidth="150.0" />
-      <TextField fx:id="custIDTextField" layoutX="140.0" layoutY="59.0" />
+      <TextField fx:id="custIDTextField" disable="true" editable="false" layoutX="140.0" layoutY="59.0" />
       <TextField fx:id="titleTextField" layoutX="140.0" layoutY="99.0" />
       <TextField fx:id="typeTextField" layoutX="140.0" layoutY="139.0" />
       <TextField fx:id="descTextField" layoutX="140.0" layoutY="179.0" />
@@ -35,7 +35,7 @@
       <ComboBox fx:id="endHourComboBox" layoutX="490.0" layoutY="99.0" prefWidth="70.0" promptText="Hour" />
       <ComboBox fx:id="endMinuteComboBox" layoutX="570.0" layoutY="99.0" prefWidth="70.0" promptText="Min" />
       <Label layoutX="20.0" layoutY="263.0" text="Appointment ID" />
-      <TextField fx:id="appointmentIDTextField" layoutX="140.0" layoutY="259.0" />
+      <TextField fx:id="appointmentIDTextField" disable="true" editable="false" layoutX="140.0" layoutY="259.0" />
       <Label layoutX="20.0" layoutY="294.0" text="Local Start Time" />
       <Label fx:id="localStartLabel" layoutX="115.0" layoutY="294.0" prefHeight="17.0" prefWidth="212.0" text="Use Convert Time Button" />
       <Label layoutX="374.0" layoutY="294.0" text="Eastern Start Time" />

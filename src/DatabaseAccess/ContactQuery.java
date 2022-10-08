@@ -1,23 +1,27 @@
 package DatabaseAccess;
 
 import Model.Contact;
-import Model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
+/** This class controls all queries to the database related to Contacts. */
 public class ContactQuery {
+    /** Queries the database for contacts by name
+     *
+     * @param contactName String name of contact searched for.
+     * @return Contact object of the contact whose name matches the parameter, or null if not found.
+     */
     public static Contact select(String contactName) {
         String sql = "SELECT * FROM contacts where Contact_Name = ?";
         try {
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
             ps.setString(1,contactName);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 int contactID = rs.getInt(1);
                 String email = rs.getString(3);
 
@@ -31,6 +35,10 @@ public class ContactQuery {
         return null;
     }
 
+    /** Queries the database for all contacts and returns them as Contact objects in an ObservableList.
+     *
+     * @return Observable list of all contacts in the database.
+     */
     public static ObservableList<Contact> selectAllToList(){
         ObservableList<Contact> allContacts = FXCollections.observableArrayList();
 

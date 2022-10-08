@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+/** This class controls the main window. It displays all appointments, allows deletion of said appointments and access
+ * to the customer view windows, the report windows, the add appointment, and modify appointment windows. */
 public class MainWindowController implements Initializable {
     /** ToggleGroup for radio buttons. Controls filtering the list displayed in the appointment TableView. */
     @FXML
@@ -134,6 +135,11 @@ public class MainWindowController implements Initializable {
     void onClickToCustomerView(ActionEvent event) throws IOException {
         Utils.changeWindow(event, Utils.CUSTOMER_VIEW_WINDOW, "Customer View");
     }
+
+    /** Attaches the supplied observable list to a tableview.
+     *
+     * @param appointments Observable list of appointments to set the table with.
+     */
     public void setTable(ObservableList<Appointment> appointments){
         appointmentTable.setItems(appointments);
     }

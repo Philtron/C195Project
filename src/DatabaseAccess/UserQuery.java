@@ -1,28 +1,29 @@
 package DatabaseAccess;
 
-import Helper.Utils;
-import Model.Contact;
 import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
+/** This class controls all queries to the database related to Users. */
 public class UserQuery {
+
+    /** Checks the supplied username and password against users in the database.
+     *
+     * @param uName string username compared to users in the database.
+     * @param password string password compared to passwords attached to users in the database.
+     * @return true if both strings match, false otherwise.
+     */
     public static boolean logIn(String uName, String password){
-
-
+        String sql = "SELECT * FROM users where User_Name= ? AND Password= ? ";
         try {
-            Connection con = JDBC.getConnection();
-            PreparedStatement query = con.prepareStatement("SELECT * FROM users WHERE User_Name =\"" + uName + "\" AND " +
-                    "Password =\"" + password + "\"");
-
-            ResultSet rs = query.executeQuery();
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ps.setString(1, uName);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
             return rs.next();
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -31,6 +32,11 @@ public class UserQuery {
         return false;
     }
 
+    /** Queries the database and returns a user object of any user that matches the supplied username parameter.
+     *
+     * @param userName string username of user to search for.
+     * @return User object matching the supplied userName.
+     */
     public static User selectUser(String userName) {
         User newUser = null;
         String sql = "SELECT * FROM users WHERE User_Name= ?";
@@ -53,7 +59,10 @@ public class UserQuery {
         return newUser;
     }
 
-
+    /** Queries the database for all Users and returns them as User Objects in an ObservableList.
+     *
+     * @return Observable list of all Users in the database.
+     */
     public static ObservableList<User> selectAllToList(){
         ObservableList<User> allUsers = FXCollections.observableArrayList();
 

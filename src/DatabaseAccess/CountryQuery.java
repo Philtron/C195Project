@@ -6,9 +6,14 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.ZoneId;
 
+/** This class controls all queries to the database related to Contacts. */
 public abstract class CountryQuery {
+    /** Queries the database to find a country using a division ID.
+     *
+     * @param divisionID int division ID used to search for the country.
+     * @return Country object the division belongs to.
+     */
     public static Country selectFromDivisionID(int divisionID){
         String sql = "SELECT c.Country_ID, c.Country, c.Create_Date, c.Created_By, c.Last_Update, c.Last_Updated_By " +
                 "FROM countries c JOIN first_level_divisions f ON f.Country_ID = c.Country_ID WHERE f.Division_ID= ? ";
@@ -22,8 +27,6 @@ public abstract class CountryQuery {
                 String country = rs.getString(2);
                 Date createDate = rs.getDate(3);
                 LocalDate ldCreateDate = new java.sql.Date(createDate.getTime()).toLocalDate();
-
-//                LocalDate ldCreateDate = createDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 String createdBy = rs.getString(4);
                 Timestamp lastUpdate = rs.getTimestamp(5);
                 String lastUpdateBy = rs.getString(6);
@@ -34,6 +37,10 @@ public abstract class CountryQuery {
         }
         return null;
     }
+    /** Queries the database for all countries and returns them, as country objects, in an ObservableList.
+     *
+     * @return Observable list of all countries in the database.
+     */
     public static ObservableList<Country> selectAllToList(){
         ObservableList<Country> allCountries = FXCollections.observableArrayList();
         String sql = "SELECT * FROM countries";
@@ -44,11 +51,7 @@ public abstract class CountryQuery {
                 int countryID = rs.getInt(1);
                 String country = rs.getString(2);
                 Date createDate = rs.getDate(3);
-
                 LocalDate ldCreateDate = new java.sql.Date(createDate.getTime()).toLocalDate();
-//                LocalDate ldCreateDate = createDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-
                 String createdBy = rs.getString(4);
                 Timestamp lastUpdate = rs.getTimestamp(5);
                 String lastUpdateBy = rs.getString(6);

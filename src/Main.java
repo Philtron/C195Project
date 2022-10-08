@@ -9,7 +9,11 @@ import java.util.Locale;
 
 /** This is the main class for the C195 Scheduling Program Assessment. This program uses a graphical interface
  * for a scheduling program that works with a MYSQL database.
- * */
+ *
+ * Javadocs folder is located in the C195Project/Docs folder
+ *
+ * @author Philip Sauer completed 10/07/2022
+ */
 public class Main extends Application {
 
     /** Standard javafx scene setting method. Places the log in window slightly to the left of the screen

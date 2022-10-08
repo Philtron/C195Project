@@ -121,13 +121,9 @@ public class AddCustomerWindowController implements Initializable {
             }
             else {
                 divisionComboBox.setDisable(false);
-                try {
-                    divisionComboBox.getItems().clear();
-                    Country selCountry = countryComboBox.getValue();
-                    divisionComboBox.setItems(FirstLevelDivisionQuery.getFilteredDivisions(selCountry));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                divisionComboBox.getItems().clear();
+                Country selCountry = countryComboBox.getValue();
+                divisionComboBox.setItems(FirstLevelDivisionQuery.getFilteredDivisions(selCountry));
             }
         });
     }

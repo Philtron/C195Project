@@ -22,6 +22,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/** This class controls the modify customer window. It allows changing details for the customer selected in the previous
+ * window.
+ */
 public class ModifyCustomerWindowController implements Initializable {
     /** Customer to be modified. It is set when the customer is selected in the customer view window. */
     public static Customer customer;
@@ -86,8 +89,8 @@ public class ModifyCustomerWindowController implements Initializable {
             String phone = phoneTextField.getText();
             int divisionID = divisionComboBox.getValue().getDivisionID();
             User createUser = LogInWindowController.CurrentUser;
-            CustomerQuery.modifyCustomer(customerID, customerName, address, zip, phone,
-                    createUser.getUserName(), Timestamp.valueOf(LocalDateTime.now()), createUser.getUserName(), divisionID);
+            CustomerQuery.modifyCustomer(customerID, customerName, address, zip, phone, createUser.getUserName(),
+                    divisionID);
             Utils.changeWindow(event, Utils.CUSTOMER_VIEW_WINDOW, "Customer View");
         }
     }
@@ -132,13 +135,9 @@ public class ModifyCustomerWindowController implements Initializable {
             }
             else {
                 divisionComboBox.setDisable(false);
-                try {
-                    divisionComboBox.getItems().clear();
-                    Country selCountry = countryComboBox.getValue();
-                    divisionComboBox.setItems(FirstLevelDivisionQuery.getFilteredDivisions(selCountry));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                divisionComboBox.getItems().clear();
+                Country selCountry = countryComboBox.getValue();
+                divisionComboBox.setItems(FirstLevelDivisionQuery.getFilteredDivisions(selCountry));
 
             }
         });

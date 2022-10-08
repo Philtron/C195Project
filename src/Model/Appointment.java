@@ -1,8 +1,10 @@
 package Model;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
+/**
+ * Appointment class file.
+ */
 public class Appointment {
     private final int appointmentID;
     private int customerID;
@@ -16,10 +18,22 @@ public class Appointment {
     private String contactName;
     private final int userID;
 
-    public int getUserID() {
-        return userID;
-    }
 
+    /**
+     * Full constructor
+     *
+     * @param appointmentID int ID to be primary key
+     * @param customerID    int ID opf customer associated with appointment. Foreign key, customer table's primary key.
+     * @param customerName  string customer name attached to the appointment
+     * @param title         string title of appointment
+     * @param location      string location of appointment
+     * @param type          string type of appointment
+     * @param description   string description of appointment
+     * @param start         LocalDateTime of start of appointment
+     * @param end           LocalDateTime of end of appointment
+     * @param contactName   String name of contact associated with the appointment
+     * @param userID        int ID of user associated with the appointment. Foreign key, user table's primary key.
+     */
     public Appointment(int appointmentID, int customerID, String customerName, String title, String location,
                        String type, String description, LocalDateTime start, LocalDateTime end, String contactName, int userID) {
 
@@ -36,84 +50,88 @@ public class Appointment {
         this.userID = userID;
     }
 
+    /**
+     * @return int the user ID associated with the appointment.
+     */
+    public int getUserID() {
+        return userID;
+    }
+
+    /**
+     * @return int the appointment ID, which is the primary key in the database.
+     */
     public int getAppointmentID() {
         return appointmentID;
     }
 
-    public int getCustomerID() {
-        return customerID;
-    }
-
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
-    }
-
+    /**
+     * @return string name of customer associated with the appointment.
+     */
     public String getCustomerName() {
         return customerName;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    /**
+     *
+     * @return int customerID - Foreign Key
+     */
+    public int getCustomerID() {
+        return customerID;
     }
 
+    /**
+     * @return string title of appointment.
+     */
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
+    /**
+     * @return string location of appointment.
+     */
     public String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
+    /**
+     * @return string type of appointment.
+     */
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
+    /**
+     * @return String description of appointment.
+     */
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    /**
+     * @return LocalDateTime start of appointment.
+     */
     public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(LocalDateTime start) {
-        this.start = start;
-    }
-
+    /**
+     * @return LocalDateTime end of appointment.
+     */
     public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
-    }
-
+    /**
+     * @return String name of contact associated with appointment.
+     */
     public String getContactName() {
         return contactName;
     }
 
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
-    }
     public String toString(){
         return("ID: " + this.getAppointmentID() + " Title: " + this.title + " Type: " + this.type +
                 " Description: " + this.description + " Start: " + this.start + " End: " + this.end +
                 " CustomerID: " + this.customerID);
     }
+
 }

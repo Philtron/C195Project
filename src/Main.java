@@ -10,7 +10,7 @@ import java.util.Locale;
 /** This is the main class for the C195 Scheduling Program Assessment. This program uses a graphical interface
  * for a scheduling program that works with a MYSQL database.
  *
- * Javadocs folder is located in the C195Project/Docs folder
+ * Javadocs folder and README.txt are located in the C195Project/Docs folder
  *
  * @author Philip Sauer completed 10/07/2022
  */

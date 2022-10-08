@@ -116,9 +116,10 @@ public class Utils {
      */
     public static boolean verifyBusinessHours(ZonedDateTime start, ZonedDateTime end) {
 
+
         ZonedDateTime businessOpen = ZonedDateTime.of(start.toLocalDate(), LocalTime.of(8,0),
                 ZoneId.of("US/Eastern"));
-        ZonedDateTime businessClose = ZonedDateTime.of(end.toLocalDate(), LocalTime.of(22, 0),
+        ZonedDateTime businessClose = ZonedDateTime.of(start.toLocalDate(), LocalTime.of(22, 0),
                 ZoneId.of("US/Eastern"));
 
         // Start and end aren't before business open or after business close = true

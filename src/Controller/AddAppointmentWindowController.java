@@ -133,6 +133,7 @@ public class AddAppointmentWindowController implements Initializable {
             User user = LogInWindowController.CurrentUser;
 
             LocalDate date = startDatePicker.getValue();
+            LocalDate endDate = endDatePicker.getValue();
 
             int startHour = startHourComboBox.getValue();
             int startMinute = startMinuteComboBox.getValue();
@@ -142,7 +143,7 @@ public class AddAppointmentWindowController implements Initializable {
 
             // Translating the date/time controls to a LocalDateTime.
             LocalDateTime ldtStart = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), startHour, startMinute);
-            LocalDateTime ldtEnd = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), endHour, endMinute);
+            LocalDateTime ldtEnd = LocalDateTime.of(endDate.getYear(), date.getMonth(), date.getDayOfMonth(), endHour, endMinute);
 
             // Create ZoneDateTImes from the LocalDateTimes used to compare against business hours and customer overlaps.
             ZonedDateTime zdtStart = ZonedDateTime.of(ldtStart, ZoneId.systemDefault());
